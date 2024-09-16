@@ -30,6 +30,8 @@ import ortus.boxlang.web.exchange.IBoxHTTPExchange;
 
 /**
  * A Testing class to test the HTTPExchange. Great for mocking, testing, and extending.
+ * Mock the methods you need to test, and throw an UnsupportedOperationException for the rest.
+ * Idea: Use the Request Scope to track data and simulate requests.
  */
 public class MockHTTPExchange implements IBoxHTTPExchange {
 

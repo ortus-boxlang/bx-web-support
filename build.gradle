@@ -215,7 +215,7 @@ task downloadBoxLang( type: Download ) {
 		"https://downloads.ortussolutions.com/ortussolutions/boxlang-runtimes/boxlang-web-support/${boxlangVersion}/boxlang-web-support-${boxlangVersion}.jar"
 	])
     // Specify the destination directory for the downloaded file
-    dest "src/test/resources/libs/boxlang-${boxlangVersion}-all.jar"
+    dest "src/test/resources/libs/"
     overwrite true
     onlyIfModified false
 }

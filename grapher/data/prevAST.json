@@ -1,0 +1,2769 @@
+{
+  "ASTType" : "BoxClass",
+  "ASTPackage" : "ortus.boxlang.compiler.ast",
+  "sourceText" : "class {\n\n\tproperty name=\"moduleRecord\";\n\tproperty name=\"boxRuntime\";\n\tproperty name=\"log\";\n\n\t/**\n\t * --------------------------------------------------------------------------\n\t * Module Properties\n\t * --------------------------------------------------------------------------\n\t * Here is where you define the properties of your module that the module service\n\t * will use to register and activate your module\n\t */\n\n\t/**\n\t * Your module version. Try to use semantic versioning\n\t * @mandatory\n\t */\n\tthis.version = \"1.0.0-snapshot-SNAPSHOT\";\n\n\t/**\n\t * The BoxLang mapping for your module.  All BoxLang modules are registered with an internal\n\t * mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test\n\t */\n\tthis.mapping = \"bxWebSupport\";\n\n\t/**\n\t * Who built the module\n\t */\n\tthis.author = \"Luis Majano\";\n\n\t/**\n\t * The module description\n\t */\n\tthis.description = \"This module gives you web support for BoxLang CLI applications\";\n\n\t/**\n\t * The module web URL\n\t */\n\tthis.webURL = \"https://www.ortussolutions.com\";\n\n\t/**\n\t * This boolean flag tells the module service to skip the module registration/activation process.\n\t */\n\tthis.disabled = false;\n\n\t/**\n\t * --------------------------------------------------------------------------\n\t * Module Methods\n\t * --------------------------------------------------------------------------\n\t */\n\n\t/**\n\t * Called by the ModuleService on module registration\n\t */\n\tfunction configure(){\n\t\t/**\n\t\t * Every module has a settings configuration object\n\t\t */\n\t\tsettings = {\n\t\t};\n\n\t\t/**\n\t\t * Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject\n\t\t */\n\t\tobjectMappings = {\n\t\t\t// { name=\"MyObject\", class=\"models.utilities.MyObject\" }\n\t\t}\n\n\t\t/**\n\t\t * DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime\n\t\t */\n\t\tdatasources = {\n\t\t\t// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }\n\t\t};\n\n\t\t/**\n\t\t * The module interceptors to register into the runtime\n\t\t */\n\t\tinterceptors = [\n\t\t\t// { class=\"path.to.Interceptor\", properties={} }\n\t\t];\n\n\t\t/**\n\t\t * A list of custom interception points to register into the runtime\n\t\t */\n\t\tcustomInterceptionPoints = [ ];\n\t}\n\n\t/**\n\t * Called by the ModuleService on module activation\n\t */\n\tfunction onLoad(){\n\n\t}\n\n\t/**\n\t * Called by the ModuleService on module deactivation\n\t */\n\tfunction onUnload(){\n\n\t}\n\n\t/**\n\t * --------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points\n\t */\n\n}",
+  "position" : {
+    "start" : {
+      "line" : 15,
+      "column" : 0
+    },
+    "end" : {
+      "line" : 133,
+      "column" : 1
+    }
+  },
+  "comments" : [ {
+    "ASTType" : "BoxDocComment",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+    "sourceText" : "/**\n * This is the module descriptor and entry point for your module in the runtime.\n * The unique name of the moduel is the name of the directory on the modules folder.\n * A BoxLang mapping will be created for you with the name of the module.\n *\n * A module can have the following folders that will be automatically registered:\n * + bifs - Custom BIFs that will be registered into the runtime\n * + interceptors - Custom interceptors that will be registered into the runtime via the configure() method\n * + libs - Custom java libraries that your module leverages\n * + tags - Custom tags that will be registered into the runtime\n *\n * Every module will have its own classloader that will be used to load the module libs and dependencies.\n */",
+    "position" : {
+      "start" : {
+        "line" : 1,
+        "column" : 0
+      },
+      "end" : {
+        "line" : 13,
+        "column" : 3
+      }
+    },
+    "comments" : [ ],
+    "commentText" : "\nThis is the module descriptor and entry point for your module in the runtime.\nThe unique name of the moduel is the name of the directory on the modules folder.\nA BoxLang mapping will be created for you with the name of the module.\n\nA module can have the following folders that will be automatically registered:\n+ bifs - Custom BIFs that will be registered into the runtime\n+ interceptors - Custom interceptors that will be registered into the runtime via the configure() method\n+ libs - Custom java libraries that your module leverages\n+ tags - Custom tags that will be registered into the runtime\n\nEvery module will have its own classloader that will be used to load the module libs and dependencies.\n",
+    "annotations" : [ {
+      "ASTType" : "BoxDocumentationAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "This is the module descriptor and entry point for your module in the runtime.\n * The unique name of the moduel is the name of the directory on the modules folder.\n * A BoxLang mapping will be created for you with the name of the module.\n *\n * A module can have the following folders that will be automatically registered:\n * + bifs - Custom BIFs that will be registered into the runtime\n * + interceptors - Custom interceptors that will be registered into the runtime via the configure() method\n * + libs - Custom java libraries that your module leverages\n * + tags - Custom tags that will be registered into the runtime\n *\n * Every module will have its own classloader that will be used to load the module libs and dependencies.",
+      "position" : {
+        "start" : {
+          "line" : 2,
+          "column" : 3
+        },
+        "end" : {
+          "line" : 12,
+          "column" : 105
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "This is the module descriptor and entry point for your module in the runtime.\n * The unique name of the moduel is the name of the directory on the modules folder.\n * A BoxLang mapping will be created for you with the name of the module.\n *\n * A module can have the following folders that will be automatically registered:\n * + bifs - Custom BIFs that will be registered into the runtime\n * + interceptors - Custom interceptors that will be registered into the runtime via the configure() method\n * + libs - Custom java libraries that your module leverages\n * + tags - Custom tags that will be registered into the runtime\n *\n * Every module will have its own classloader that will be used to load the module libs and dependencies.",
+        "position" : {
+          "start" : {
+            "line" : 2,
+            "column" : 3
+          },
+          "end" : {
+            "line" : 12,
+            "column" : 105
+          }
+        },
+        "comments" : [ ],
+        "value" : "hint"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "This is the module descriptor and entry point for your module in the runtime.\n * The unique name of the moduel is the name of the directory on the modules folder.\n * A BoxLang mapping will be created for you with the name of the module.\n *\n * A module can have the following folders that will be automatically registered:\n * + bifs - Custom BIFs that will be registered into the runtime\n * + interceptors - Custom interceptors that will be registered into the runtime via the configure() method\n * + libs - Custom java libraries that your module leverages\n * + tags - Custom tags that will be registered into the runtime\n *\n * Every module will have its own classloader that will be used to load the module libs and dependencies.",
+        "position" : {
+          "start" : {
+            "line" : 2,
+            "column" : 3
+          },
+          "end" : {
+            "line" : 12,
+            "column" : 105
+          }
+        },
+        "comments" : [ ],
+        "value" : "This is the module descriptor and entry point for your module in the runtime. The unique name of the moduel is the name of the directory on the modules folder. A BoxLang mapping will be created for you with the name of the module.\nA module can have the following folders that will be automatically registered: + bifs - Custom BIFs that will be registered into the runtime + interceptors - Custom interceptors that will be registered into the runtime via the configure() method + libs - Custom java libraries that your module leverages + tags - Custom tags that will be registered into the runtime\nEvery module will have its own classloader that will be used to load the module libs and dependencies."
+      }
+    } ]
+  }, {
+    "ASTType" : "BoxDocComment",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+    "sourceText" : "/**\n\t * --------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points\n\t */",
+    "position" : {
+      "start" : {
+        "line" : 125,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 131,
+        "column" : 5
+      }
+    },
+    "comments" : [ ],
+    "commentText" : "\n--------------------------------------------------------------------------\nModule Events\n--------------------------------------------------------------------------\nYou can listen to any runtime events by creating the methods\nthat match the approved runtime interception points\n",
+    "annotations" : [ {
+      "ASTType" : "BoxDocumentationAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+      "position" : {
+        "start" : {
+          "line" : 126,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 130,
+          "column" : 56
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+        "position" : {
+          "start" : {
+            "line" : 126,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 130,
+            "column" : 56
+          }
+        },
+        "comments" : [ ],
+        "value" : "hint"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+        "position" : {
+          "start" : {
+            "line" : 126,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 130,
+            "column" : 56
+          }
+        },
+        "comments" : [ ],
+        "value" : "-------------------------------------------------------------------------- Module Events -------------------------------------------------------------------------- You can listen to any runtime events by creating the methods that match the approved runtime interception points"
+      }
+    } ]
+  } ],
+  "imports" : [ ],
+  "body" : [ {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.version = \"1.0.0-snapshot-SNAPSHOT\"",
+    "position" : {
+      "start" : {
+        "line" : 33,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 33,
+        "column" : 41
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * --------------------------------------------------------------------------\n\t * Module Properties\n\t * --------------------------------------------------------------------------\n\t * Here is where you define the properties of your module that the module service\n\t * will use to register and activate your module\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 21,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 27,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\n--------------------------------------------------------------------------\nModule Properties\n--------------------------------------------------------------------------\nHere is where you define the properties of your module that the module service\nwill use to register and activate your module\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "--------------------------------------------------------------------------\n\t * Module Properties\n\t * --------------------------------------------------------------------------\n\t * Here is where you define the properties of your module that the module service\n\t * will use to register and activate your module",
+        "position" : {
+          "start" : {
+            "line" : 22,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 26,
+            "column" : 50
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "--------------------------------------------------------------------------\n\t * Module Properties\n\t * --------------------------------------------------------------------------\n\t * Here is where you define the properties of your module that the module service\n\t * will use to register and activate your module",
+          "position" : {
+            "start" : {
+              "line" : 22,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 26,
+              "column" : 50
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "--------------------------------------------------------------------------\n\t * Module Properties\n\t * --------------------------------------------------------------------------\n\t * Here is where you define the properties of your module that the module service\n\t * will use to register and activate your module",
+          "position" : {
+            "start" : {
+              "line" : 22,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 26,
+              "column" : 50
+            }
+          },
+          "comments" : [ ],
+          "value" : "-------------------------------------------------------------------------- Module Properties -------------------------------------------------------------------------- Here is where you define the properties of your module that the module service will use to register and activate your module"
+        }
+      } ]
+    }, {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * Your module version. Try to use semantic versioning\n\t * @mandatory\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 29,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 32,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nYour module version. Try to use semantic versioning\n@mandatory\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "@mandatory\n",
+        "position" : {
+          "start" : {
+            "line" : 31,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 31,
+            "column" : 16
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "mandatory",
+          "position" : {
+            "start" : {
+              "line" : 31,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 31,
+              "column" : 15
+            }
+          },
+          "comments" : [ ],
+          "value" : "mandatory"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "@mandatory\n",
+          "position" : {
+            "start" : {
+              "line" : 31,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 31,
+              "column" : 16
+            }
+          },
+          "comments" : [ ],
+          "value" : ""
+        }
+      }, {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "Your module version. Try to use semantic versioning",
+        "position" : {
+          "start" : {
+            "line" : 30,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 30,
+            "column" : 56
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Your module version. Try to use semantic versioning",
+          "position" : {
+            "start" : {
+              "line" : 30,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 30,
+              "column" : 56
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Your module version. Try to use semantic versioning",
+          "position" : {
+            "start" : {
+              "line" : 30,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 30,
+              "column" : 56
+            }
+          },
+          "comments" : [ ],
+          "value" : "Your module version. Try to use semantic versioning"
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.version = \"1.0.0-snapshot-SNAPSHOT\"",
+      "position" : {
+        "start" : {
+          "line" : 33,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 33,
+          "column" : 41
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".version",
+        "position" : {
+          "start" : {
+            "line" : 33,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 33,
+            "column" : 13
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 33,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 33,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "version",
+          "position" : {
+            "start" : {
+              "line" : 33,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 33,
+              "column" : 13
+            }
+          },
+          "comments" : [ ],
+          "name" : "version"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"1.0.0-snapshot-SNAPSHOT\"",
+        "position" : {
+          "start" : {
+            "line" : 33,
+            "column" : 16
+          },
+          "end" : {
+            "line" : 33,
+            "column" : 41
+          }
+        },
+        "comments" : [ ],
+        "value" : "1.0.0-snapshot-SNAPSHOT"
+      }
+    }
+  }, {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.mapping = \"bxWebSupport\"",
+    "position" : {
+      "start" : {
+        "line" : 39,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 39,
+        "column" : 30
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * The BoxLang mapping for your module.  All BoxLang modules are registered with an internal\n\t * mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 35,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 38,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nThe BoxLang mapping for your module.  All BoxLang modules are registered with an internal\nmapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "The BoxLang mapping for your module.  All BoxLang modules are registered with an internal\n\t * mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test",
+        "position" : {
+          "start" : {
+            "line" : 36,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 37,
+            "column" : 113
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The BoxLang mapping for your module.  All BoxLang modules are registered with an internal\n\t * mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test",
+          "position" : {
+            "start" : {
+              "line" : 36,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 37,
+              "column" : 113
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The BoxLang mapping for your module.  All BoxLang modules are registered with an internal\n\t * mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test",
+          "position" : {
+            "start" : {
+              "line" : 36,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 37,
+              "column" : 113
+            }
+          },
+          "comments" : [ ],
+          "value" : "The BoxLang mapping for your module.  All BoxLang modules are registered with an internal mapping prefix of : bxModules.{this.mapping}, /bxmodules/{this.mapping}. Ex: bxModules.test, /bxmodules/test"
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.mapping = \"bxWebSupport\"",
+      "position" : {
+        "start" : {
+          "line" : 39,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 39,
+          "column" : 30
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".mapping",
+        "position" : {
+          "start" : {
+            "line" : 39,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 39,
+            "column" : 13
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 39,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 39,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "mapping",
+          "position" : {
+            "start" : {
+              "line" : 39,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 39,
+              "column" : 13
+            }
+          },
+          "comments" : [ ],
+          "name" : "mapping"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"bxWebSupport\"",
+        "position" : {
+          "start" : {
+            "line" : 39,
+            "column" : 16
+          },
+          "end" : {
+            "line" : 39,
+            "column" : 30
+          }
+        },
+        "comments" : [ ],
+        "value" : "bxWebSupport"
+      }
+    }
+  }, {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.author = \"Luis Majano\"",
+    "position" : {
+      "start" : {
+        "line" : 44,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 44,
+        "column" : 28
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * Who built the module\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 41,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 43,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nWho built the module\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "Who built the module",
+        "position" : {
+          "start" : {
+            "line" : 42,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 42,
+            "column" : 25
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Who built the module",
+          "position" : {
+            "start" : {
+              "line" : 42,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 42,
+              "column" : 25
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Who built the module",
+          "position" : {
+            "start" : {
+              "line" : 42,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 42,
+              "column" : 25
+            }
+          },
+          "comments" : [ ],
+          "value" : "Who built the module"
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.author = \"Luis Majano\"",
+      "position" : {
+        "start" : {
+          "line" : 44,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 44,
+          "column" : 28
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".author",
+        "position" : {
+          "start" : {
+            "line" : 44,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 44,
+            "column" : 12
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 44,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 44,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "author",
+          "position" : {
+            "start" : {
+              "line" : 44,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 44,
+              "column" : 12
+            }
+          },
+          "comments" : [ ],
+          "name" : "author"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"Luis Majano\"",
+        "position" : {
+          "start" : {
+            "line" : 44,
+            "column" : 15
+          },
+          "end" : {
+            "line" : 44,
+            "column" : 28
+          }
+        },
+        "comments" : [ ],
+        "value" : "Luis Majano"
+      }
+    }
+  }, {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.description = \"This module gives you web support for BoxLang CLI applications\"",
+    "position" : {
+      "start" : {
+        "line" : 49,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 49,
+        "column" : 84
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * The module description\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 46,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 48,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nThe module description\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "The module description",
+        "position" : {
+          "start" : {
+            "line" : 47,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 47,
+            "column" : 27
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The module description",
+          "position" : {
+            "start" : {
+              "line" : 47,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 47,
+              "column" : 27
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The module description",
+          "position" : {
+            "start" : {
+              "line" : 47,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 47,
+              "column" : 27
+            }
+          },
+          "comments" : [ ],
+          "value" : "The module description"
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.description = \"This module gives you web support for BoxLang CLI applications\"",
+      "position" : {
+        "start" : {
+          "line" : 49,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 49,
+          "column" : 84
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".description",
+        "position" : {
+          "start" : {
+            "line" : 49,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 49,
+            "column" : 17
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 49,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 49,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "description",
+          "position" : {
+            "start" : {
+              "line" : 49,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 49,
+              "column" : 17
+            }
+          },
+          "comments" : [ ],
+          "name" : "description"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"This module gives you web support for BoxLang CLI applications\"",
+        "position" : {
+          "start" : {
+            "line" : 49,
+            "column" : 20
+          },
+          "end" : {
+            "line" : 49,
+            "column" : 84
+          }
+        },
+        "comments" : [ ],
+        "value" : "This module gives you web support for BoxLang CLI applications"
+      }
+    }
+  }, {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.webURL = \"https://www.ortussolutions.com\"",
+    "position" : {
+      "start" : {
+        "line" : 54,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 54,
+        "column" : 47
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * The module web URL\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 51,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 53,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nThe module web URL\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "The module web URL",
+        "position" : {
+          "start" : {
+            "line" : 52,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 52,
+            "column" : 23
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The module web URL",
+          "position" : {
+            "start" : {
+              "line" : 52,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 52,
+              "column" : 23
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "The module web URL",
+          "position" : {
+            "start" : {
+              "line" : 52,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 52,
+              "column" : 23
+            }
+          },
+          "comments" : [ ],
+          "value" : "The module web URL"
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.webURL = \"https://www.ortussolutions.com\"",
+      "position" : {
+        "start" : {
+          "line" : 54,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 54,
+          "column" : 47
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".webURL",
+        "position" : {
+          "start" : {
+            "line" : 54,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 54,
+            "column" : 12
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 54,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 54,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "webURL",
+          "position" : {
+            "start" : {
+              "line" : 54,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 54,
+              "column" : 12
+            }
+          },
+          "comments" : [ ],
+          "name" : "webURL"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"https://www.ortussolutions.com\"",
+        "position" : {
+          "start" : {
+            "line" : 54,
+            "column" : 15
+          },
+          "end" : {
+            "line" : 54,
+            "column" : 47
+          }
+        },
+        "comments" : [ ],
+        "value" : "https://www.ortussolutions.com"
+      }
+    }
+  }, {
+    "ASTType" : "BoxExpressionStatement",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "this.disabled = false",
+    "position" : {
+      "start" : {
+        "line" : 59,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 59,
+        "column" : 22
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * This boolean flag tells the module service to skip the module registration/activation process.\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 56,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 58,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nThis boolean flag tells the module service to skip the module registration/activation process.\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "This boolean flag tells the module service to skip the module registration/activation process.",
+        "position" : {
+          "start" : {
+            "line" : 57,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 57,
+            "column" : 99
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "This boolean flag tells the module service to skip the module registration/activation process.",
+          "position" : {
+            "start" : {
+              "line" : 57,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 57,
+              "column" : 99
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "This boolean flag tells the module service to skip the module registration/activation process.",
+          "position" : {
+            "start" : {
+              "line" : 57,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 57,
+              "column" : 99
+            }
+          },
+          "comments" : [ ],
+          "value" : "This boolean flag tells the module service to skip the module registration/activation process."
+        }
+      } ]
+    } ],
+    "expression" : {
+      "ASTType" : "BoxAssignment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "this.disabled = false",
+      "position" : {
+        "start" : {
+          "line" : 59,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 59,
+          "column" : 22
+        }
+      },
+      "comments" : [ ],
+      "modifiers" : [ ],
+      "left" : {
+        "ASTType" : "BoxDotAccess",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : ".disabled",
+        "position" : {
+          "start" : {
+            "line" : 59,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 59,
+            "column" : 14
+          }
+        },
+        "comments" : [ ],
+        "context" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "this",
+          "position" : {
+            "start" : {
+              "line" : 59,
+              "column" : 1
+            },
+            "end" : {
+              "line" : 59,
+              "column" : 5
+            }
+          },
+          "comments" : [ ],
+          "name" : "this"
+        },
+        "access" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "disabled",
+          "position" : {
+            "start" : {
+              "line" : 59,
+              "column" : 6
+            },
+            "end" : {
+              "line" : 59,
+              "column" : 14
+            }
+          },
+          "comments" : [ ],
+          "name" : "disabled"
+        },
+        "safe" : false
+      },
+      "op" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Equal"
+      },
+      "right" : {
+        "ASTType" : "BoxBooleanLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "false",
+        "position" : {
+          "start" : {
+            "line" : 59,
+            "column" : 17
+          },
+          "end" : {
+            "line" : 59,
+            "column" : 22
+          }
+        },
+        "comments" : [ ],
+        "value" : false
+      }
+    }
+  }, {
+    "ASTType" : "BoxFunctionDeclaration",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "function configure(){\n\t\t/**\n\t\t * Every module has a settings configuration object\n\t\t */\n\t\tsettings = {\n\t\t};\n\n\t\t/**\n\t\t * Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject\n\t\t */\n\t\tobjectMappings = {\n\t\t\t// { name=\"MyObject\", class=\"models.utilities.MyObject\" }\n\t\t}\n\n\t\t/**\n\t\t * DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime\n\t\t */\n\t\tdatasources = {\n\t\t\t// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }\n\t\t};\n\n\t\t/**\n\t\t * The module interceptors to register into the runtime\n\t\t */\n\t\tinterceptors = [\n\t\t\t// { class=\"path.to.Interceptor\", properties={} }\n\t\t];\n\n\t\t/**\n\t\t * A list of custom interception points to register into the runtime\n\t\t */\n\t\tcustomInterceptionPoints = [ ];\n\t}",
+    "position" : {
+      "start" : {
+        "line" : 70,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 109,
+        "column" : 2
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * --------------------------------------------------------------------------\n\t * Module Methods\n\t * --------------------------------------------------------------------------\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 61,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 65,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\n--------------------------------------------------------------------------\nModule Methods\n--------------------------------------------------------------------------\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "--------------------------------------------------------------------------\n\t * Module Methods\n\t * --------------------------------------------------------------------------",
+        "position" : {
+          "start" : {
+            "line" : 62,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 64,
+            "column" : 79
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "--------------------------------------------------------------------------\n\t * Module Methods\n\t * --------------------------------------------------------------------------",
+          "position" : {
+            "start" : {
+              "line" : 62,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 64,
+              "column" : 79
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "--------------------------------------------------------------------------\n\t * Module Methods\n\t * --------------------------------------------------------------------------",
+          "position" : {
+            "start" : {
+              "line" : 62,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 64,
+              "column" : 79
+            }
+          },
+          "comments" : [ ],
+          "value" : "-------------------------------------------------------------------------- Module Methods --------------------------------------------------------------------------"
+        }
+      } ]
+    }, {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * Called by the ModuleService on module registration\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 67,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 69,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nCalled by the ModuleService on module registration\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "Called by the ModuleService on module registration",
+        "position" : {
+          "start" : {
+            "line" : 68,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 68,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module registration",
+          "position" : {
+            "start" : {
+              "line" : 68,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 68,
+              "column" : 55
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module registration",
+          "position" : {
+            "start" : {
+              "line" : 68,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 68,
+              "column" : 55
+            }
+          },
+          "comments" : [ ],
+          "value" : "Called by the ModuleService on module registration"
+        }
+      } ]
+    } ],
+    "accessModifier" : null,
+    "modifiers" : [ ],
+    "type" : null,
+    "name" : "configure",
+    "args" : [ ],
+    "body" : [ {
+      "ASTType" : "BoxExpressionStatement",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "settings = {\n\t\t}",
+      "position" : {
+        "start" : {
+          "line" : 74,
+          "column" : 2
+        },
+        "end" : {
+          "line" : 75,
+          "column" : 3
+        }
+      },
+      "comments" : [ {
+        "ASTType" : "BoxDocComment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+        "sourceText" : "/**\n\t\t * Every module has a settings configuration object\n\t\t */",
+        "position" : {
+          "start" : {
+            "line" : 71,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 73,
+            "column" : 7
+          }
+        },
+        "comments" : [ ],
+        "commentText" : "\nEvery module has a settings configuration object\n",
+        "annotations" : [ {
+          "ASTType" : "BoxDocumentationAnnotation",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+          "sourceText" : "Every module has a settings configuration object",
+          "position" : {
+            "start" : {
+              "line" : 72,
+              "column" : 7
+            },
+            "end" : {
+              "line" : 72,
+              "column" : 55
+            }
+          },
+          "comments" : [ ],
+          "key" : {
+            "ASTType" : "BoxFQN",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Every module has a settings configuration object",
+            "position" : {
+              "start" : {
+                "line" : 72,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 72,
+                "column" : 55
+              }
+            },
+            "comments" : [ ],
+            "value" : "hint"
+          },
+          "value" : {
+            "ASTType" : "BoxStringLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Every module has a settings configuration object",
+            "position" : {
+              "start" : {
+                "line" : 72,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 72,
+                "column" : 55
+              }
+            },
+            "comments" : [ ],
+            "value" : "Every module has a settings configuration object"
+          }
+        } ]
+      } ],
+      "expression" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "settings = {\n\t\t}",
+        "position" : {
+          "start" : {
+            "line" : 74,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 75,
+            "column" : 3
+          }
+        },
+        "comments" : [ ],
+        "modifiers" : [ ],
+        "left" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "settings",
+          "position" : {
+            "start" : {
+              "line" : 74,
+              "column" : 2
+            },
+            "end" : {
+              "line" : 74,
+              "column" : 10
+            }
+          },
+          "comments" : [ ],
+          "name" : "settings"
+        },
+        "op" : {
+          "ASTType" : "BoxAssignment",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Equal"
+        },
+        "right" : {
+          "ASTType" : "BoxStructLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "{\n\t\t}",
+          "position" : {
+            "start" : {
+              "line" : 74,
+              "column" : 13
+            },
+            "end" : {
+              "line" : 75,
+              "column" : 3
+            }
+          },
+          "comments" : [ ],
+          "type" : {
+            "ASTType" : "BoxStructLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Unordered"
+          },
+          "values" : [ ]
+        }
+      }
+    }, {
+      "ASTType" : "BoxExpressionStatement",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "objectMappings = {\n\t\t\t// { name=\"MyObject\", class=\"models.utilities.MyObject\" }\n\t\t}",
+      "position" : {
+        "start" : {
+          "line" : 86,
+          "column" : 2
+        },
+        "end" : {
+          "line" : 88,
+          "column" : 3
+        }
+      },
+      "comments" : [ {
+        "ASTType" : "BoxDocComment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+        "sourceText" : "/**\n\t\t * Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject\n\t\t */",
+        "position" : {
+          "start" : {
+            "line" : 77,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 85,
+            "column" : 7
+          }
+        },
+        "comments" : [ ],
+        "commentText" : "\nEvery module can have a list of object mappings\nthat can be created by boxLang.  This is a great way\nto create objects that can be used by the module\nor other modules.\nThe mappings will be created in the following format:\nbxModules.{this.mapping}.{mappingName}\nEx: bxModules.test.MyObject => bxModules.test.models.MyObject\n",
+        "annotations" : [ {
+          "ASTType" : "BoxDocumentationAnnotation",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+          "sourceText" : "Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject",
+          "position" : {
+            "start" : {
+              "line" : 78,
+              "column" : 7
+            },
+            "end" : {
+              "line" : 84,
+              "column" : 68
+            }
+          },
+          "comments" : [ ],
+          "key" : {
+            "ASTType" : "BoxFQN",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject",
+            "position" : {
+              "start" : {
+                "line" : 78,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 84,
+                "column" : 68
+              }
+            },
+            "comments" : [ ],
+            "value" : "hint"
+          },
+          "value" : {
+            "ASTType" : "BoxStringLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Every module can have a list of object mappings\n\t\t * that can be created by boxLang.  This is a great way\n\t\t * to create objects that can be used by the module\n\t\t * or other modules.\n\t\t * The mappings will be created in the following format:\n\t\t * bxModules.{this.mapping}.{mappingName}\n\t\t * Ex: bxModules.test.MyObject => bxModules.test.models.MyObject",
+            "position" : {
+              "start" : {
+                "line" : 78,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 84,
+                "column" : 68
+              }
+            },
+            "comments" : [ ],
+            "value" : "Every module can have a list of object mappings that can be created by boxLang.  This is a great way to create objects that can be used by the module or other modules. The mappings will be created in the following format: bxModules.{this.mapping}.{mappingName} Ex: bxModules.test.MyObject => bxModules.test.models.MyObject"
+          }
+        } ]
+      } ],
+      "expression" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "objectMappings = {\n\t\t\t// { name=\"MyObject\", class=\"models.utilities.MyObject\" }\n\t\t}",
+        "position" : {
+          "start" : {
+            "line" : 86,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 88,
+            "column" : 3
+          }
+        },
+        "comments" : [ ],
+        "modifiers" : [ ],
+        "left" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "objectMappings",
+          "position" : {
+            "start" : {
+              "line" : 86,
+              "column" : 2
+            },
+            "end" : {
+              "line" : 86,
+              "column" : 16
+            }
+          },
+          "comments" : [ ],
+          "name" : "objectMappings"
+        },
+        "op" : {
+          "ASTType" : "BoxAssignment",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Equal"
+        },
+        "right" : {
+          "ASTType" : "BoxStructLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "{\n\t\t\t// { name=\"MyObject\", class=\"models.utilities.MyObject\" }\n\t\t}",
+          "position" : {
+            "start" : {
+              "line" : 86,
+              "column" : 19
+            },
+            "end" : {
+              "line" : 88,
+              "column" : 3
+            }
+          },
+          "comments" : [ {
+            "ASTType" : "BoxSingleLineComment",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+            "sourceText" : "// { name=\"MyObject\", class=\"models.utilities.MyObject\" }",
+            "position" : {
+              "start" : {
+                "line" : 87,
+                "column" : 3
+              },
+              "end" : {
+                "line" : 87,
+                "column" : 60
+              }
+            },
+            "comments" : [ ],
+            "commentText" : "{ name=\"MyObject\", class=\"models.utilities.MyObject\" }"
+          } ],
+          "type" : {
+            "ASTType" : "BoxStructLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Unordered"
+          },
+          "values" : [ ]
+        }
+      }
+    }, {
+      "ASTType" : "BoxExpressionStatement",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "datasources = {\n\t\t\t// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }\n\t\t}",
+      "position" : {
+        "start" : {
+          "line" : 94,
+          "column" : 2
+        },
+        "end" : {
+          "line" : 96,
+          "column" : 3
+        }
+      },
+      "comments" : [ {
+        "ASTType" : "BoxDocComment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+        "sourceText" : "/**\n\t\t * DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime\n\t\t */",
+        "position" : {
+          "start" : {
+            "line" : 90,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 93,
+            "column" : 7
+          }
+        },
+        "comments" : [ ],
+        "commentText" : "\nDataSources can be defined by a module and they will be registered\nfor you in the runtime\n",
+        "annotations" : [ {
+          "ASTType" : "BoxDocumentationAnnotation",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+          "sourceText" : "DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime",
+          "position" : {
+            "start" : {
+              "line" : 91,
+              "column" : 7
+            },
+            "end" : {
+              "line" : 92,
+              "column" : 29
+            }
+          },
+          "comments" : [ ],
+          "key" : {
+            "ASTType" : "BoxFQN",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime",
+            "position" : {
+              "start" : {
+                "line" : 91,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 92,
+                "column" : 29
+              }
+            },
+            "comments" : [ ],
+            "value" : "hint"
+          },
+          "value" : {
+            "ASTType" : "BoxStringLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "DataSources can be defined by a module and they will be registered\n\t\t * for you in the runtime",
+            "position" : {
+              "start" : {
+                "line" : 91,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 92,
+                "column" : 29
+              }
+            },
+            "comments" : [ ],
+            "value" : "DataSources can be defined by a module and they will be registered for you in the runtime"
+          }
+        } ]
+      } ],
+      "expression" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "datasources = {\n\t\t\t// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }\n\t\t}",
+        "position" : {
+          "start" : {
+            "line" : 94,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 96,
+            "column" : 3
+          }
+        },
+        "comments" : [ ],
+        "modifiers" : [ ],
+        "left" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "datasources",
+          "position" : {
+            "start" : {
+              "line" : 94,
+              "column" : 2
+            },
+            "end" : {
+              "line" : 94,
+              "column" : 13
+            }
+          },
+          "comments" : [ ],
+          "name" : "datasources"
+        },
+        "op" : {
+          "ASTType" : "BoxAssignment",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Equal"
+        },
+        "right" : {
+          "ASTType" : "BoxStructLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "{\n\t\t\t// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }\n\t\t}",
+          "position" : {
+            "start" : {
+              "line" : 94,
+              "column" : 16
+            },
+            "end" : {
+              "line" : 96,
+              "column" : 3
+            }
+          },
+          "comments" : [ {
+            "ASTType" : "BoxSingleLineComment",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+            "sourceText" : "// { name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }",
+            "position" : {
+              "start" : {
+                "line" : 95,
+                "column" : 3
+              },
+              "end" : {
+                "line" : 95,
+                "column" : 102
+              }
+            },
+            "comments" : [ ],
+            "commentText" : "{ name=\"MyDSN\", class=\"coldbox.system.datasources.ColdBoxDataSource\", properties={dsn=\"mydsn\"} }"
+          } ],
+          "type" : {
+            "ASTType" : "BoxStructLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "Unordered"
+          },
+          "values" : [ ]
+        }
+      }
+    }, {
+      "ASTType" : "BoxExpressionStatement",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "interceptors = [\n\t\t\t// { class=\"path.to.Interceptor\", properties={} }\n\t\t]",
+      "position" : {
+        "start" : {
+          "line" : 101,
+          "column" : 2
+        },
+        "end" : {
+          "line" : 103,
+          "column" : 3
+        }
+      },
+      "comments" : [ {
+        "ASTType" : "BoxDocComment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+        "sourceText" : "/**\n\t\t * The module interceptors to register into the runtime\n\t\t */",
+        "position" : {
+          "start" : {
+            "line" : 98,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 100,
+            "column" : 7
+          }
+        },
+        "comments" : [ ],
+        "commentText" : "\nThe module interceptors to register into the runtime\n",
+        "annotations" : [ {
+          "ASTType" : "BoxDocumentationAnnotation",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+          "sourceText" : "The module interceptors to register into the runtime",
+          "position" : {
+            "start" : {
+              "line" : 99,
+              "column" : 7
+            },
+            "end" : {
+              "line" : 99,
+              "column" : 59
+            }
+          },
+          "comments" : [ ],
+          "key" : {
+            "ASTType" : "BoxFQN",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "The module interceptors to register into the runtime",
+            "position" : {
+              "start" : {
+                "line" : 99,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 99,
+                "column" : 59
+              }
+            },
+            "comments" : [ ],
+            "value" : "hint"
+          },
+          "value" : {
+            "ASTType" : "BoxStringLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "The module interceptors to register into the runtime",
+            "position" : {
+              "start" : {
+                "line" : 99,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 99,
+                "column" : 59
+              }
+            },
+            "comments" : [ ],
+            "value" : "The module interceptors to register into the runtime"
+          }
+        } ]
+      } ],
+      "expression" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "interceptors = [\n\t\t\t// { class=\"path.to.Interceptor\", properties={} }\n\t\t]",
+        "position" : {
+          "start" : {
+            "line" : 101,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 103,
+            "column" : 3
+          }
+        },
+        "comments" : [ ],
+        "modifiers" : [ ],
+        "left" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "interceptors",
+          "position" : {
+            "start" : {
+              "line" : 101,
+              "column" : 2
+            },
+            "end" : {
+              "line" : 101,
+              "column" : 14
+            }
+          },
+          "comments" : [ ],
+          "name" : "interceptors"
+        },
+        "op" : {
+          "ASTType" : "BoxAssignment",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Equal"
+        },
+        "right" : {
+          "ASTType" : "BoxArrayLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "[\n\t\t\t// { class=\"path.to.Interceptor\", properties={} }\n\t\t]",
+          "position" : {
+            "start" : {
+              "line" : 101,
+              "column" : 17
+            },
+            "end" : {
+              "line" : 103,
+              "column" : 3
+            }
+          },
+          "comments" : [ {
+            "ASTType" : "BoxSingleLineComment",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+            "sourceText" : "// { class=\"path.to.Interceptor\", properties={} }",
+            "position" : {
+              "start" : {
+                "line" : 102,
+                "column" : 3
+              },
+              "end" : {
+                "line" : 102,
+                "column" : 52
+              }
+            },
+            "comments" : [ ],
+            "commentText" : "{ class=\"path.to.Interceptor\", properties={} }"
+          } ],
+          "values" : [ ]
+        }
+      }
+    }, {
+      "ASTType" : "BoxExpressionStatement",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "customInterceptionPoints = [ ]",
+      "position" : {
+        "start" : {
+          "line" : 108,
+          "column" : 2
+        },
+        "end" : {
+          "line" : 108,
+          "column" : 32
+        }
+      },
+      "comments" : [ {
+        "ASTType" : "BoxDocComment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+        "sourceText" : "/**\n\t\t * A list of custom interception points to register into the runtime\n\t\t */",
+        "position" : {
+          "start" : {
+            "line" : 105,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 107,
+            "column" : 7
+          }
+        },
+        "comments" : [ ],
+        "commentText" : "\nA list of custom interception points to register into the runtime\n",
+        "annotations" : [ {
+          "ASTType" : "BoxDocumentationAnnotation",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+          "sourceText" : "A list of custom interception points to register into the runtime",
+          "position" : {
+            "start" : {
+              "line" : 106,
+              "column" : 7
+            },
+            "end" : {
+              "line" : 106,
+              "column" : 72
+            }
+          },
+          "comments" : [ ],
+          "key" : {
+            "ASTType" : "BoxFQN",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "A list of custom interception points to register into the runtime",
+            "position" : {
+              "start" : {
+                "line" : 106,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 106,
+                "column" : 72
+              }
+            },
+            "comments" : [ ],
+            "value" : "hint"
+          },
+          "value" : {
+            "ASTType" : "BoxStringLiteral",
+            "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+            "sourceText" : "A list of custom interception points to register into the runtime",
+            "position" : {
+              "start" : {
+                "line" : 106,
+                "column" : 7
+              },
+              "end" : {
+                "line" : 106,
+                "column" : 72
+              }
+            },
+            "comments" : [ ],
+            "value" : "A list of custom interception points to register into the runtime"
+          }
+        } ]
+      } ],
+      "expression" : {
+        "ASTType" : "BoxAssignment",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "customInterceptionPoints = [ ]",
+        "position" : {
+          "start" : {
+            "line" : 108,
+            "column" : 2
+          },
+          "end" : {
+            "line" : 108,
+            "column" : 32
+          }
+        },
+        "comments" : [ ],
+        "modifiers" : [ ],
+        "left" : {
+          "ASTType" : "BoxIdentifier",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "customInterceptionPoints",
+          "position" : {
+            "start" : {
+              "line" : 108,
+              "column" : 2
+            },
+            "end" : {
+              "line" : 108,
+              "column" : 26
+            }
+          },
+          "comments" : [ ],
+          "name" : "customInterceptionPoints"
+        },
+        "op" : {
+          "ASTType" : "BoxAssignment",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Equal"
+        },
+        "right" : {
+          "ASTType" : "BoxArrayLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "[ ]",
+          "position" : {
+            "start" : {
+              "line" : 108,
+              "column" : 29
+            },
+            "end" : {
+              "line" : 108,
+              "column" : 32
+            }
+          },
+          "comments" : [ ],
+          "values" : [ ]
+        }
+      }
+    } ],
+    "annotations" : [ ],
+    "documentation" : [ {
+      "ASTType" : "BoxDocumentationAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "Called by the ModuleService on module registration",
+      "position" : {
+        "start" : {
+          "line" : 68,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 68,
+          "column" : 55
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module registration",
+        "position" : {
+          "start" : {
+            "line" : 68,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 68,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "value" : "hint"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module registration",
+        "position" : {
+          "start" : {
+            "line" : 68,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 68,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "value" : "Called by the ModuleService on module registration"
+      }
+    } ]
+  }, {
+    "ASTType" : "BoxFunctionDeclaration",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "function onLoad(){\n\n\t}",
+    "position" : {
+      "start" : {
+        "line" : 114,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 116,
+        "column" : 2
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * Called by the ModuleService on module activation\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 111,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 113,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nCalled by the ModuleService on module activation\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "Called by the ModuleService on module activation",
+        "position" : {
+          "start" : {
+            "line" : 112,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 112,
+            "column" : 53
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module activation",
+          "position" : {
+            "start" : {
+              "line" : 112,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 112,
+              "column" : 53
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module activation",
+          "position" : {
+            "start" : {
+              "line" : 112,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 112,
+              "column" : 53
+            }
+          },
+          "comments" : [ ],
+          "value" : "Called by the ModuleService on module activation"
+        }
+      } ]
+    } ],
+    "accessModifier" : null,
+    "modifiers" : [ ],
+    "type" : null,
+    "name" : "onLoad",
+    "args" : [ ],
+    "body" : [ ],
+    "annotations" : [ ],
+    "documentation" : [ {
+      "ASTType" : "BoxDocumentationAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "Called by the ModuleService on module activation",
+      "position" : {
+        "start" : {
+          "line" : 112,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 112,
+          "column" : 53
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module activation",
+        "position" : {
+          "start" : {
+            "line" : 112,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 112,
+            "column" : 53
+          }
+        },
+        "comments" : [ ],
+        "value" : "hint"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module activation",
+        "position" : {
+          "start" : {
+            "line" : 112,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 112,
+            "column" : 53
+          }
+        },
+        "comments" : [ ],
+        "value" : "Called by the ModuleService on module activation"
+      }
+    } ]
+  }, {
+    "ASTType" : "BoxFunctionDeclaration",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "function onUnload(){\n\n\t}",
+    "position" : {
+      "start" : {
+        "line" : 121,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 123,
+        "column" : 2
+      }
+    },
+    "comments" : [ {
+      "ASTType" : "BoxDocComment",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.comment",
+      "sourceText" : "/**\n\t * Called by the ModuleService on module deactivation\n\t */",
+      "position" : {
+        "start" : {
+          "line" : 118,
+          "column" : 1
+        },
+        "end" : {
+          "line" : 120,
+          "column" : 5
+        }
+      },
+      "comments" : [ ],
+      "commentText" : "\nCalled by the ModuleService on module deactivation\n",
+      "annotations" : [ {
+        "ASTType" : "BoxDocumentationAnnotation",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+        "sourceText" : "Called by the ModuleService on module deactivation",
+        "position" : {
+          "start" : {
+            "line" : 119,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 119,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "key" : {
+          "ASTType" : "BoxFQN",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module deactivation",
+          "position" : {
+            "start" : {
+              "line" : 119,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 119,
+              "column" : 55
+            }
+          },
+          "comments" : [ ],
+          "value" : "hint"
+        },
+        "value" : {
+          "ASTType" : "BoxStringLiteral",
+          "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+          "sourceText" : "Called by the ModuleService on module deactivation",
+          "position" : {
+            "start" : {
+              "line" : 119,
+              "column" : 5
+            },
+            "end" : {
+              "line" : 119,
+              "column" : 55
+            }
+          },
+          "comments" : [ ],
+          "value" : "Called by the ModuleService on module deactivation"
+        }
+      } ]
+    } ],
+    "accessModifier" : null,
+    "modifiers" : [ ],
+    "type" : null,
+    "name" : "onUnload",
+    "args" : [ ],
+    "body" : [ ],
+    "annotations" : [ ],
+    "documentation" : [ {
+      "ASTType" : "BoxDocumentationAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "Called by the ModuleService on module deactivation",
+      "position" : {
+        "start" : {
+          "line" : 119,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 119,
+          "column" : 55
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module deactivation",
+        "position" : {
+          "start" : {
+            "line" : 119,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 119,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "value" : "hint"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "Called by the ModuleService on module deactivation",
+        "position" : {
+          "start" : {
+            "line" : 119,
+            "column" : 5
+          },
+          "end" : {
+            "line" : 119,
+            "column" : 55
+          }
+        },
+        "comments" : [ ],
+        "value" : "Called by the ModuleService on module deactivation"
+      }
+    } ]
+  } ],
+  "annotations" : [ ],
+  "documentation" : [ {
+    "ASTType" : "BoxDocumentationAnnotation",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+    "position" : {
+      "start" : {
+        "line" : 126,
+        "column" : 5
+      },
+      "end" : {
+        "line" : 130,
+        "column" : 56
+      }
+    },
+    "comments" : [ ],
+    "key" : {
+      "ASTType" : "BoxFQN",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+      "position" : {
+        "start" : {
+          "line" : 126,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 130,
+          "column" : 56
+        }
+      },
+      "comments" : [ ],
+      "value" : "hint"
+    },
+    "value" : {
+      "ASTType" : "BoxStringLiteral",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+      "sourceText" : "--------------------------------------------------------------------------\n\t * Module Events\n\t * --------------------------------------------------------------------------\n\t * You can listen to any runtime events by creating the methods\n\t * that match the approved runtime interception points",
+      "position" : {
+        "start" : {
+          "line" : 126,
+          "column" : 5
+        },
+        "end" : {
+          "line" : 130,
+          "column" : 56
+        }
+      },
+      "comments" : [ ],
+      "value" : "-------------------------------------------------------------------------- Module Events -------------------------------------------------------------------------- You can listen to any runtime events by creating the methods that match the approved runtime interception points"
+    }
+  } ],
+  "properties" : [ {
+    "ASTType" : "BoxProperty",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "property name=\"moduleRecord\";",
+    "position" : {
+      "start" : {
+        "line" : 17,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 17,
+        "column" : 30
+      }
+    },
+    "comments" : [ ],
+    "annotations" : [ {
+      "ASTType" : "BoxAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "name=\"moduleRecord\"",
+      "position" : {
+        "start" : {
+          "line" : 17,
+          "column" : 10
+        },
+        "end" : {
+          "line" : 17,
+          "column" : 29
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "name",
+        "position" : {
+          "start" : {
+            "line" : 17,
+            "column" : 10
+          },
+          "end" : {
+            "line" : 17,
+            "column" : 14
+          }
+        },
+        "comments" : [ ],
+        "value" : "name"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"moduleRecord\"",
+        "position" : {
+          "start" : {
+            "line" : 17,
+            "column" : 15
+          },
+          "end" : {
+            "line" : 17,
+            "column" : 29
+          }
+        },
+        "comments" : [ ],
+        "value" : "moduleRecord"
+      }
+    } ],
+    "documentation" : [ ]
+  }, {
+    "ASTType" : "BoxProperty",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "property name=\"boxRuntime\";",
+    "position" : {
+      "start" : {
+        "line" : 18,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 18,
+        "column" : 28
+      }
+    },
+    "comments" : [ ],
+    "annotations" : [ {
+      "ASTType" : "BoxAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "name=\"boxRuntime\"",
+      "position" : {
+        "start" : {
+          "line" : 18,
+          "column" : 10
+        },
+        "end" : {
+          "line" : 18,
+          "column" : 27
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "name",
+        "position" : {
+          "start" : {
+            "line" : 18,
+            "column" : 10
+          },
+          "end" : {
+            "line" : 18,
+            "column" : 14
+          }
+        },
+        "comments" : [ ],
+        "value" : "name"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"boxRuntime\"",
+        "position" : {
+          "start" : {
+            "line" : 18,
+            "column" : 15
+          },
+          "end" : {
+            "line" : 18,
+            "column" : 27
+          }
+        },
+        "comments" : [ ],
+        "value" : "boxRuntime"
+      }
+    } ],
+    "documentation" : [ ]
+  }, {
+    "ASTType" : "BoxProperty",
+    "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+    "sourceText" : "property name=\"log\";",
+    "position" : {
+      "start" : {
+        "line" : 19,
+        "column" : 1
+      },
+      "end" : {
+        "line" : 19,
+        "column" : 21
+      }
+    },
+    "comments" : [ ],
+    "annotations" : [ {
+      "ASTType" : "BoxAnnotation",
+      "ASTPackage" : "ortus.boxlang.compiler.ast.statement",
+      "sourceText" : "name=\"log\"",
+      "position" : {
+        "start" : {
+          "line" : 19,
+          "column" : 10
+        },
+        "end" : {
+          "line" : 19,
+          "column" : 20
+        }
+      },
+      "comments" : [ ],
+      "key" : {
+        "ASTType" : "BoxFQN",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "name",
+        "position" : {
+          "start" : {
+            "line" : 19,
+            "column" : 10
+          },
+          "end" : {
+            "line" : 19,
+            "column" : 14
+          }
+        },
+        "comments" : [ ],
+        "value" : "name"
+      },
+      "value" : {
+        "ASTType" : "BoxStringLiteral",
+        "ASTPackage" : "ortus.boxlang.compiler.ast.expression",
+        "sourceText" : "\"log\"",
+        "position" : {
+          "start" : {
+            "line" : 19,
+            "column" : 15
+          },
+          "end" : {
+            "line" : 19,
+            "column" : 20
+          }
+        },
+        "comments" : [ ],
+        "value" : "log"
+      }
+    } ],
+    "documentation" : [ ]
+  } ]
+}

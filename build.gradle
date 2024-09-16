@@ -39,7 +39,11 @@ dependencies {
 	// Look for it in the local build directory
 	// You must run `./gradle build -x test` in the BoxLang project
 	compileOnly files( '../../boxlang/build/distributions/boxlang-' + boxlangVersion + '-all.jar' )
+	implementation files( '../../boxlang-web-support/build/distributions/boxlang-web-support-' + boxlangVersion + '.jar' )
+
+	// Downloaded Dependencies
     compileOnly files( 'src/test/resources/libs/boxlang-' + boxlangVersion + '-all.jar' )
+	implementation files( 'src/test/resources/libs/boxlang-web-support-' + boxlangVersion + '.jar' )
 
     // Testing Dependencies
 	testImplementation files( '../../boxlang/build/distributions/boxlang-' + boxlangVersion + '-all.jar' )

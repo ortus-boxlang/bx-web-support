@@ -23,6 +23,13 @@ class{
 	/**
 	 * Creates a new mock server and store it in the request context
 	 * If it exists already, it will return the existing one
+	 *
+	 * @webroot string The webroot to use for the mock server, defaults to the module setting
+	 * @host string The host to use for the mock server, defaults to the module setting
+	 * @port numeric The port to use for the mock server, defaults to the module setting
+	 * @secure boolean Whether the mock server should be secure, defaults to the module setting
+	 * @force boolean Whether to force the creation of a new mock server
+	 *
 	 * @return MockHTTPExchange
 	 */
 	function invoke(

@@ -19,17 +19,25 @@ class{
 
 	/**
 	 * Handle the start of a mock request
-	 *
-	 * @requestPath The request path to mock. Defaults to /
-	 * @webroot The webroot of the application. Defaults to the module setting
-	 * @host The host to mock. Defaults to the module setting
-	 * @port The port to mock. Defaults to the module setting
-	 * @secure The secure flag to mock. Defaults to the module setting
-	 * @force Force the creation of a new mock server. Defaults to false
 	 */
 	function invoke(
-		string requestPath = "/",
+		// Request Settings
+		string path = "/",
+		string method = "GET",
+		string pathInfo = "",
+		string queryString = "",
+		string contentType = "text/html",
+		string body = "",
+		struct urlScope = {},
+		struct formScope = {},
+		struct cookieScope = {},
+		struct headers = {},
+		// Response Mock Settings
 		numeric responseStatus = 200,
+		string responseContentType = "text/html",
+		string responseBody = "",
+		struct responseHeaders = {},
+		// Web Server Settings
 		string webroot,
 		string host,
 		numeric port,

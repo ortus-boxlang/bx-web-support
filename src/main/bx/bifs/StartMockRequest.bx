@@ -1,0 +1,44 @@
+/**
+ * The following is injected by the RUNTIME:
+ * - boxRuntime : BoxLangRuntime
+ * - log : A logger
+ * - functionService : The BoxLang FunctionService
+ * - interceptorService : The BoxLang InterceptorService
+ * - moduleRecord : The ModuleRecord instance
+ */
+import java:ortus.boxlang.web.WebRequestExecutor;
+
+@BoxBIF
+class{
+
+	property name="boxRuntime";
+	property name="log";
+	property name="functionService";
+	property name="interceptorService";
+	property name="moduleRecord";
+
+	/**
+	 * Handle the start of a mock request
+	 *
+	 * @requestPath The request path to mock. Defaults to /
+	 * @webroot The webroot of the application. Defaults to the module setting
+	 * @host The host to mock. Defaults to the module setting
+	 * @port The port to mock. Defaults to the module setting
+	 * @secure The secure flag to mock. Defaults to the module setting
+	 * @force Force the creation of a new mock server. Defaults to false
+	 */
+	function invoke(
+		string requestPath = "/",
+		numeric responseStatus = 200,
+		string webroot,
+		string host,
+		numeric port,
+		boolean secure,
+		boolean force = false
+	){
+		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
+		var mockServer = getMockServer( argumentCollection = arguments );
+		WebRequestExecutor.execute( mockServer, arguments.webroot, true );
+	}
+
+}

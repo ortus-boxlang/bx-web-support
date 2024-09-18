@@ -1,0 +1,55 @@
+/**
+ * Get the mock server created by the module startup
+ * This is configured in the ModuleConfig settings
+ *
+ * The following is injected by the RUNTIME:
+ * - boxRuntime : BoxLangRuntime
+ * - log : A logger
+ * - functionService : The BoxLang FunctionService
+ * - interceptorService : The BoxLang InterceptorService
+ * - moduleRecord : The ModuleRecord instance
+ */
+import java:ortus.boxlang.websupport.exchange.MockHTTPExchange;
+
+@BoxBIF
+class{
+
+	property name="boxRuntime";
+	property name="log";
+	property name="functionService";
+	property name="interceptorService";
+	property name="moduleRecord";
+
+	/**
+	 * Creates a new mock server and store it in the request context
+	 * If it exists already, it will return the existing one
+	 * @return MockHTTPExchange
+	 */
+	function invoke(
+		string webroot,
+		string host,
+		numeric port,
+		boolean secure,
+		boolean force = false
+	){
+
+		if( request.keyExists( moduleRecord.settings.requestKey ) && !arguments.force ){
+			return request[ moduleRecord.settings.requestKey ];
+		}
+
+		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
+		arguments.host = arguments.host ?: moduleRecord.settings.host;
+		arguments.port = arguments.port ?: moduleRecord.settings.port;
+		arguments.secure = arguments.secure ?: moduleRecord.settings.secure;
+
+		request[ moduleRecord.settings.requestKey ] = new MockHTTPExchange(
+			arguments.webroot,
+			arguments.host,
+			arguments.port,
+			arguments.secure
+		);
+
+		return request[ moduleRecord.settings.requestKey ];
+	}
+
+}

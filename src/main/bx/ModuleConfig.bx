@@ -72,6 +72,16 @@ class {
 		 * Every module has a settings configuration object
 		 */
 		settings = {
+			// The default port for the mock web server
+			port = 8080,
+			// The default host for the mock web server
+			host = "localhost",
+			// The default web root for the mock web server
+			webRoot = server.java.executionPath,
+			// If you want your mock web server to be always secure (SSL)
+			secure = false,
+			// The key used in the `server` scope we use to track the mock server
+			requestKey = "bxMockServer"
 		};
 
 		/**
@@ -112,7 +122,6 @@ class {
 	 * Called by the ModuleService on module activation
 	 */
 	function onLoad(){
-
 	}
 
 	/**

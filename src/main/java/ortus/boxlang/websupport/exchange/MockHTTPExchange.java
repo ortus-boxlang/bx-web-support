@@ -18,12 +18,23 @@
 package ortus.boxlang.websupport.exchange;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.ByteBuffer;
+import java.nio.file.Path;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ortus.boxlang.runtime.scopes.Key;
+import ortus.boxlang.runtime.types.IStruct;
+import ortus.boxlang.runtime.types.Struct;
 import ortus.boxlang.web.context.WebRequestBoxContext;
 import ortus.boxlang.web.exchange.BoxCookie;
 import ortus.boxlang.web.exchange.IBoxHTTPExchange;
@@ -35,256 +46,552 @@ import ortus.boxlang.web.exchange.IBoxHTTPExchange;
  */
 public class MockHTTPExchange implements IBoxHTTPExchange {
 
+	// Mock Server Properties
+	private String					webroot;
+	private String					host;
+	private int						port;
+	private boolean					secure;
+	// Mock Request Properties
+	private String					requestPath			= "/";
+	private String					requestMethod		= "GET";
+	private String					requestPathInfo		= "";
+	private String					requestQueryString	= "";
+	Object							requestBody			= null;
+	String							requestContentType	= "text/html";
+
+	/**
+	 * Request attributes
+	 */
+	private Map<String, Object>		attributes			= new HashMap<>();
+
+	/**
+	 * Form Data
+	 */
+	private IStruct					mockForm			= new Struct();
+
+	/**
+	 * URL Data
+	 */
+	private IStruct					mockURL				= new Struct();
+
+	/**
+	 * Response Status
+	 */
+	private int						responseStatus		= 200;
+
+	/**
+	 * Response Text
+	 */
+	private String					responseText		= "Ok";
+
+	/**
+	 * Mock Response Cookies
+	 */
+	private IStruct					mockResponseCookies	= new Struct();
+
+	/**
+	 * Mock Request Cookies
+	 */
+	private IStruct					mockRequestCookies	= new Struct();
+
+	/**
+	 * Mock Request Headers
+	 */
+	private IStruct					mockRequestHeaders	= new Struct();
+
+	/**
+	 * Mock Response Headers
+	 */
+	private IStruct					mockResponseHeaders	= new Struct();
+
+	/**
+	 * PrintWriter for the response that wraps the channel
+	 */
+	PrintWriter						writer				= new PrintWriter( new StringWriter() );
+
+	/**
+	 * The BoxLang context for this request
+	 */
+	protected WebRequestBoxContext	context;
+
+	/**
+	 * The list of file uploads
+	 */
+	List<FileUpload>				fileUploads			= new ArrayList<>();
+
+	/**
+	 * Create a new BoxLang Mock HTTP exchange
+	 *
+	 * @param webroot The webroot of the application to mock
+	 * @param host    The host of the application to mock
+	 * @param port    The port of the application to mock
+	 * @param secure  Whether the application is secure or not
+	 */
+	public MockHTTPExchange( String webroot, String host, int port, boolean secure ) {
+		this.port		= port;
+		this.host		= host;
+		this.webroot	= webroot;
+		this.secure		= secure;
+	}
+
+	/**
+	 * ------------------------------------------------------------------------------------
+	 * Getters & Setters
+	 * ------------------------------------------------------------------------------------
+	 */
+
+	/**
+	 * @return the webroot
+	 */
+	public String getWebroot() {
+		return webroot;
+	}
+
+	/**
+	 * @return the host
+	 */
+	public String getHost() {
+		return host;
+	}
+
+	/**
+	 * @return the port
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * @return the secure
+	 */
+	public boolean isSecure() {
+		return secure;
+	}
+
+	/**
+	 * @return the requestPath
+	 */
+	public String getRequestPath() {
+		return requestPath;
+	}
+
+	/**
+	 * Get the response status text
+	 */
+	public String getResponseStatusText() {
+		return this.responseText;
+	}
+
+	/**
+	 * Get mock request cookies
+	 */
+	public IStruct getMockRequestCookies() {
+		return this.mockRequestCookies;
+	}
+
+	/**
+	 * Get mock response cookies
+	 */
+	public IStruct getMockResponseCookies() {
+		return this.mockResponseCookies;
+	}
+
+	/**
+	 * @param webroot the webroot to set
+	 */
+	public IBoxHTTPExchange setWebroot( String webroot ) {
+		this.webroot = webroot;
+		return this;
+	}
+
+	/**
+	 * @param host the host to set
+	 */
+	public IBoxHTTPExchange setHost( String host ) {
+		this.host = host;
+		return this;
+	}
+
+	/**
+	 * @param text the response text to set
+	 */
+	public IBoxHTTPExchange setResponseText( String text ) {
+		this.responseText = text;
+		return this;
+	}
+
+	/**
+	 * Set the request path info
+	 *
+	 * @param pathInfo The request path info
+	 */
+	public IBoxHTTPExchange setRequestPathInfo( String pathInfo ) {
+		this.requestPathInfo = pathInfo;
+		return this;
+	}
+
+	/**
+	 * Set the request query string
+	 *
+	 * @param queryString The request query string
+	 */
+	public IBoxHTTPExchange setRequestQueryString( String queryString ) {
+		this.requestQueryString = queryString;
+		return this;
+	}
+
+	/**
+	 * Set request method
+	 *
+	 * @param method The request method
+	 */
+	public IBoxHTTPExchange setRequestMethod( String method ) {
+		this.requestMethod = method;
+		return this;
+	}
+
+	/**
+	 * Set the request body
+	 *
+	 * @param body The request body
+	 */
+	public IBoxHTTPExchange setRequestBody( Object body ) {
+		this.requestBody = body;
+		return this;
+	}
+
+	/**
+	 * Set the request content type
+	 *
+	 * @param contentType The request content type
+	 */
+	public IBoxHTTPExchange setRequestContentType( String contentType ) {
+		this.requestContentType = contentType;
+		return this;
+	}
+
+	/**
+	 * @param port the port to set
+	 */
+	public IBoxHTTPExchange setPort( int port ) {
+		this.port = port;
+		return this;
+	}
+
+	/**
+	 * @param secure the secure to set
+	 */
+	public IBoxHTTPExchange setSecure( boolean secure ) {
+		this.secure = secure;
+		return this;
+	}
+
+	/**
+	 * @param requestPath the requestPath to set
+	 */
+	public IBoxHTTPExchange setRequestPath( String requestPath ) {
+		this.requestPath = requestPath;
+		return this;
+	}
+
+	/**
+	 * ------------------------------------------------------------------------------------
+	 * Interface methods
+	 * ------------------------------------------------------------------------------------
+	 */
+
+	/**
+	 * ------------------------------------------------------------------------------------
+	 * Response methods
+	 * ------------------------------------------------------------------------------------
+	 */
+
 	@Override
-	public void addResponseCookie( BoxCookie arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'addResponseCookie'" );
+	public void addResponseCookie( BoxCookie cookie ) {
+		this.mockResponseCookies.put( cookie.getName(), cookie );
 	}
 
 	@Override
-	public void addResponseHeader( String arg0, String arg1 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'addResponseHeader'" );
+	public void addResponseHeader( String name, String value ) {
+		this.mockResponseHeaders.put( name, value );
 	}
 
 	@Override
 	public void flushResponseBuffer() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'flushResponseBuffer'" );
+		this.writer.flush();
 	}
 
 	@Override
-	public void forward( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'forward'" );
-	}
-
-	@Override
-	public Object getRequestAttribute( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestAttribute'" );
-	}
-
-	@Override
-	public Map<String, Object> getRequestAttributeMap() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestAttributeMap'" );
-	}
-
-	@Override
-	public String getRequestAuthType() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestAuthType'" );
-	}
-
-	@Override
-	public Object getRequestBody() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestBody'" );
-	}
-
-	@Override
-	public String getRequestCharacterEncoding() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestCharacterEncoding'" );
-	}
-
-	@Override
-	public long getRequestContentLength() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestContentLength'" );
-	}
-
-	@Override
-	public String getRequestContentType() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestContentType'" );
-	}
-
-	@Override
-	public String getRequestContextPath() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestContextPath'" );
-	}
-
-	@Override
-	public BoxCookie getRequestCookie( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestCookie'" );
-	}
-
-	@Override
-	public BoxCookie[] getRequestCookies() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestCookies'" );
-	}
-
-	@Override
-	public Map<String, String[]> getRequestFormMap() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestFormMap'" );
-	}
-
-	@Override
-	public String getRequestHeader( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestHeader'" );
-	}
-
-	@Override
-	public Map<String, String[]> getRequestHeaderMap() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestHeaderMap'" );
-	}
-
-	@Override
-	public String getRequestLocalAddr() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestLocalAddr'" );
-	}
-
-	@Override
-	public String getRequestLocalName() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestLocalName'" );
-	}
-
-	@Override
-	public int getRequestLocalPort() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestLocalPort'" );
-	}
-
-	@Override
-	public Locale getRequestLocale() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestLocale'" );
-	}
-
-	@Override
-	public Enumeration<Locale> getRequestLocales() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestLocales'" );
-	}
-
-	@Override
-	public String getRequestMethod() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestMethod'" );
-	}
-
-	@Override
-	public String getRequestPathInfo() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestPathInfo'" );
-	}
-
-	@Override
-	public String getRequestPathTranslated() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestPathTranslated'" );
-	}
-
-	@Override
-	public String getRequestProtocol() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestProtocol'" );
-	}
-
-	@Override
-	public String getRequestQueryString() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestQueryString'" );
-	}
-
-	@Override
-	public String getRequestRemoteAddr() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestRemoteAddr'" );
-	}
-
-	@Override
-	public String getRequestRemoteHost() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestRemoteHost'" );
-	}
-
-	@Override
-	public int getRequestRemotePort() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestRemotePort'" );
-	}
-
-	@Override
-	public String getRequestRemoteUser() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestRemoteUser'" );
-	}
-
-	@Override
-	public String getRequestScheme() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestScheme'" );
-	}
-
-	@Override
-	public String getRequestServerName() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestServerName'" );
-	}
-
-	@Override
-	public int getRequestServerPort() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestServerPort'" );
-	}
-
-	@Override
-	public String getRequestURI() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestURI'" );
-	}
-
-	@Override
-	public StringBuffer getRequestURL() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestURL'" );
-	}
-
-	@Override
-	public Map<String, String[]> getRequestURLMap() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestURLMap'" );
-	}
-
-	@Override
-	public Principal getRequestUserPrincipal() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getRequestUserPrincipal'" );
-	}
-
-	@Override
-	public String getResponseHeader( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getResponseHeader'" );
+	public String getResponseHeader( String name ) {
+		return this.mockResponseHeaders.getAsString( Key.of( name ) );
 	}
 
 	@Override
 	public Map<String, String[]> getResponseHeaderMap() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getResponseHeaderMap'" );
+		Map<String, String[]> headers = new HashMap<>();
+		this.mockResponseHeaders.forEach( ( key, value ) -> {
+			headers.put( key.getName(), new String[] { value.toString() } );
+		} );
+		return headers;
 	}
 
 	@Override
 	public int getResponseStatus() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getResponseStatus'" );
+		return this.responseStatus;
 	}
 
 	@Override
 	public PrintWriter getResponseWriter() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getResponseWriter'" );
+		return this.writer;
+	}
+
+	@Override
+	public boolean isResponseStarted() {
+		return true;
+	}
+
+	@Override
+	public void resetResponseBuffer() {
+		this.context.clearBuffer();
+	}
+
+	@Override
+	public void sendResponseBinary( byte[] data ) {
+		ByteBuffer bBuffer = ByteBuffer.wrap( data );
+		try {
+			this.writer.write( new String( bBuffer.array(), "UTF-8" ) );
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void sendResponseFile( File arg0 ) {
+		// TODO Brad need help here on what to do
+		throw new UnsupportedOperationException( "Unimplemented method 'sendResponseFile'" );
+	}
+
+	@Override
+	public void setResponseHeader( String name, String value ) {
+		this.mockResponseHeaders.put( name, value );
+	}
+
+	@Override
+	public void setResponseStatus( int sc ) {
+		this.responseStatus = sc;
+	}
+
+	@Override
+	public void setResponseStatus( int sc, String sm ) {
+		this.responseStatus	= sc;
+		this.responseText	= sm;
+	}
+
+	/**
+	 * ------------------------------------------------------------------------------------
+	 * Request methods
+	 * ------------------------------------------------------------------------------------
+	 */
+
+	@Override
+	public void forward( String URI ) {
+		this.requestPath = URI;
+	}
+
+	@Override
+	public Object getRequestAttribute( String name ) {
+		return this.attributes.get( name );
+	}
+
+	@Override
+	public Map<String, Object> getRequestAttributeMap() {
+		return this.attributes;
+	}
+
+	@Override
+	public String getRequestAuthType() {
+		// TODO Brad need help here on what to do
+		return "help";
+	}
+
+	@Override
+	public Object getRequestBody() {
+		return this.requestBody;
+	}
+
+	@Override
+	public String getRequestCharacterEncoding() {
+		return "UTF-8";
+	}
+
+	@Override
+	public long getRequestContentLength() {
+		return 0;
+	}
+
+	@Override
+	public String getRequestContentType() {
+		return this.requestContentType;
+	}
+
+	@Override
+	public String getRequestContextPath() {
+		return this.requestPath;
+	}
+
+	@Override
+	public BoxCookie getRequestCookie( String cookie ) {
+		return ( BoxCookie ) this.mockRequestCookies.get( cookie );
+	}
+
+	@Override
+	public BoxCookie[] getRequestCookies() {
+		return this.mockRequestCookies.values().toArray( new BoxCookie[ 0 ] );
+	}
+
+	@Override
+	public Map<String, String[]> getRequestFormMap() {
+		Map<String, String[]> formMap = new HashMap<>();
+		this.mockForm.forEach( ( key, value ) -> {
+			formMap.put( key.getName(), new String[] { value.toString() } );
+		} );
+		return formMap;
+	}
+
+	@Override
+	public String getRequestHeader( String name ) {
+		return this.mockRequestHeaders.getAsString( Key.of( name ) );
+	}
+
+	@Override
+	public Map<String, String[]> getRequestHeaderMap() {
+		Map<String, String[]> headers = new HashMap<>();
+		this.mockRequestHeaders.forEach( ( key, value ) -> {
+			headers.put( key.getName(), new String[] { value.toString() } );
+		} );
+		return headers;
+	}
+
+	@Override
+	public String getRequestLocalAddr() {
+		return "127.0.0.1";
+	}
+
+	@Override
+	public String getRequestLocalName() {
+		return this.host;
+	}
+
+	@Override
+	public int getRequestLocalPort() {
+		return this.port;
+	}
+
+	@Override
+	public Locale getRequestLocale() {
+		return Locale.getDefault();
+	}
+
+	@Override
+	public Enumeration<Locale> getRequestLocales() {
+		List<Locale> ret = List.of( getRequestLocale() );
+		if ( ret.isEmpty() ) {
+			return Collections.enumeration( Collections.singletonList( Locale.getDefault() ) );
+		}
+		return Collections.enumeration( ret );
+	}
+
+	@Override
+	public String getRequestMethod() {
+		return this.requestMethod;
+	}
+
+	@Override
+	public String getRequestPathInfo() {
+		return this.requestPathInfo;
+	}
+
+	@Override
+	public String getRequestPathTranslated() {
+		return Path.of( this.webroot, getRequestURI() ).toString();
+	}
+
+	@Override
+	public String getRequestProtocol() {
+		return "HTTP/1.1";
+	}
+
+	@Override
+	public String getRequestQueryString() {
+		return this.requestQueryString;
+	}
+
+	@Override
+	public String getRequestRemoteAddr() {
+		return "0.0.0.0";
+	}
+
+	@Override
+	public String getRequestRemoteHost() {
+		return "localhost";
+	}
+
+	@Override
+	public int getRequestRemotePort() {
+		return 0;
+	}
+
+	@Override
+	public String getRequestRemoteUser() {
+		return "";
+	}
+
+	@Override
+	public String getRequestScheme() {
+		return "";
+	}
+
+	@Override
+	public String getRequestServerName() {
+		return this.host;
+	}
+
+	@Override
+	public int getRequestServerPort() {
+		return this.port;
+	}
+
+	@Override
+	public String getRequestURI() {
+		if ( this.port == 80 ) {
+			return "http://" + this.host + "/" + this.requestPath;
+		}
+		if ( this.port == 443 ) {
+			return "https://" + this.host + "/" + this.requestPath;
+		}
+		if ( this.isSecure() ) {
+			return "https://" + this.host + ":" + this.port + "/" + this.requestPath;
+		}
+		return "http://" + this.host + ":" + this.port + "/" + this.requestPath;
+	}
+
+	@Override
+	public StringBuffer getRequestURL() {
+		return new StringBuffer( getRequestURI() );
+	}
+
+	@Override
+	public Map<String, String[]> getRequestURLMap() {
+		Map<String, String[]> urlMap = new HashMap<>();
+		this.mockURL.forEach( ( key, value ) -> {
+			urlMap.put( key.getName(), new String[] { value.toString() } );
+		} );
+		return urlMap;
+	}
+
+	@Override
+	public Principal getRequestUserPrincipal() {
+		return null;
 	}
 
 	@Override
@@ -295,74 +602,27 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 
 	@Override
 	public WebRequestBoxContext getWebContext() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getWebContext'" );
+		return this.context;
 	}
 
 	@Override
 	public boolean isRequestSecure() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'isRequestSecure'" );
-	}
-
-	@Override
-	public boolean isResponseStarted() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'isResponseStarted'" );
+		return this.secure;
 	}
 
 	@Override
 	public void removeRequestAttribute( String arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'removeRequestAttribute'" );
+		this.attributes.remove( arg0 );
 	}
 
 	@Override
-	public void resetResponseBuffer() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'resetResponseBuffer'" );
+	public void setRequestAttribute( String name, Object value ) {
+		this.attributes.put( name, value );
 	}
 
 	@Override
-	public void sendResponseBinary( byte[] arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'sendResponseBinary'" );
-	}
-
-	@Override
-	public void sendResponseFile( File arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'sendResponseFile'" );
-	}
-
-	@Override
-	public void setRequestAttribute( String arg0, Object arg1 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'setRequestAttribute'" );
-	}
-
-	@Override
-	public void setResponseHeader( String arg0, String arg1 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'setResponseHeader'" );
-	}
-
-	@Override
-	public void setResponseStatus( int arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'setResponseStatus'" );
-	}
-
-	@Override
-	public void setResponseStatus( int arg0, String arg1 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'setResponseStatus'" );
-	}
-
-	@Override
-	public void setWebContext( WebRequestBoxContext arg0 ) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'setWebContext'" );
+	public void setWebContext( WebRequestBoxContext context ) {
+		this.context = context;
 	}
 
 }

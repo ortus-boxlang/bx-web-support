@@ -16,6 +16,14 @@
 
 <p>&nbsp;</p>
 
+<p align="center">
+  <span style="color: red; font-size: 1.5em; font-weight: bold;">
+    ⚠ WARNING: This module is just for use in testing.  Do not install it into a web server or it will cause jar conflicts. ⚠
+  </span>
+</p>
+
+<p>&nbsp;</p>
+
 This module provides the web support for the BoxLang core OS runtime without the need of a web server.  This means that it will add all the necessary web support to the BoxLang runtime so you can run test, simulate, and mock web requests and responses from the CLI.  This is a great way to test your web applications without the need of a web server.
 
 

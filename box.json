@@ -3,13 +3,13 @@
 	"version": "@build.version@+@build.number@",
 	"location": "https://downloads.ortussolutions.com/ortussolutions/boxlang-modules/bx-web-support/@build.version@/bx-web-support-@build.version@.zip",
 	"author": "Ortus Solutions",
-	"homepage": "https://github.com/boxlang-modules/bx-web-support",
-	"documentation": "https://github.com/boxlang-modules/bx-web-support",
+	"homepage": "https://github.com/ortus-boxlang/bx-web-support",
+	"documentation": "https://github.com/ortus-boxlang/bx-web-support",
 	"repository": {
 		"type": "git",
-		"URL": "https://github.com/boxlang-modules/bx-web-support"
+		"URL": "https://github.com/ortus-boxlang/bx-web-support"
 	},
-	"bugs": "https://github.com/boxlang-modules/bx-web-support/issues",
+	"bugs": "https://github.com/ortus-boxlang/bx-web-support/issues",
 	"slug": "bx-web-support",
 	"shortDescription": "This module gives you web support for BoxLang CLI applications",
 	"type": "boxlang-modules",

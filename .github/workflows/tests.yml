@@ -48,7 +48,6 @@ jobs:
 
       - name: Test Module
         run: |
-          ./gradlew downloadBoxLang
           # this is done in order to build the module structure before testing
           ./gradlew shadowJar test --stacktrace --console=plain
 

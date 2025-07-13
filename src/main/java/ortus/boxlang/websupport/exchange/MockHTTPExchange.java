@@ -367,8 +367,7 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 
 	@Override
 	public void sendResponseFile( File arg0 ) {
-		// TODO Brad need help here on what to do
-		throw new UnsupportedOperationException( "Unimplemented method 'sendResponseFile'" );
+		// Does nothing for now
 	}
 
 	@Override
@@ -410,7 +409,6 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 
 	@Override
 	public String getRequestAuthType() {
-		// TODO Brad need help here on what to do
 		return "help";
 	}
 
@@ -596,8 +594,7 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 
 	@Override
 	public FileUpload[] getUploadData() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException( "Unimplemented method 'getUploadData'" );
+		return new FileUpload[ 0 ];
 	}
 
 	@Override
@@ -623,6 +620,11 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	@Override
 	public void setWebContext( WebRequestBoxContext context ) {
 		this.context = context;
+	}
+
+	@Override
+	public void reset() {
+		this.context.clearBuffer();
 	}
 
 }

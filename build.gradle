@@ -23,7 +23,7 @@ if ( branch == 'development' ) {
     // If the branch is 'development', ensure the version ends with '-snapshot'
     // This replaces any existing prerelease identifier with '-snapshot'
     version = version.contains('-') ? version.replaceAll(/-.*/, '-snapshot') : "${version}-snapshot"
-	boxlangVersion = boxlangVersion.contains('-') ? boxlangVersion.replaceAll(/-.*/, '-snapshot') : "${boxlangVersion}-snapshot"
+	//boxlangVersion = boxlangVersion.contains('-') ? boxlangVersion.replaceAll(/-.*/, '-snapshot') : "${boxlangVersion}-snapshot"
 }
 
 repositories {
@@ -32,20 +32,12 @@ repositories {
 }
 
 dependencies {
-
-	if ( file( '../../boxlang/build/libs/boxlang-' + boxlangVersion + '.jar' ).exists() ) {
-		compileOnly files( '../../boxlang/build/libs/boxlang-' + boxlangVersion + '.jar' )
-		implementation files( '../../boxlang-web-support/build/distributions/boxlang-web-support-' + boxlangVersion + '.jar' )
-	} else {
-		compileOnly files( 'src/test/resources/libs/boxlang-' + boxlangVersion + '-all.jar' )
-		implementation files( 'src/test/resources/libs/boxlang-web-support-' + boxlangVersion + '-all.jar' )
-	}
+	// BoxLang Dependencies
+	compileOnly "io.boxlang:boxlang:" + boxlangVersion
+	implementation "io.boxlang:boxlang-web-support:" + boxlangVersion
 
     // Testing Dependencies
-	testImplementation files( '../../boxlang/build/distributions/boxlang-' + boxlangVersion + '-all.jar' )
-	testImplementation files( '../../boxlang-web-support/build/distributions/boxlang-web-support-' + boxlangVersion + '.jar' )
-	testImplementation files( 'src/test/resources/libs/boxlang-' + boxlangVersion + '-all.jar' )
-	testImplementation files( 'src/test/resources/libs/boxlang-web-support-' + boxlangVersion + '.jar' )
+	testImplementation "io.boxlang:boxlang:" + boxlangVersion
     testImplementation "org.junit.jupiter:junit-jupiter:5.+"
 	testImplementation "org.mockito:mockito-core:5.+"
 	testImplementation "com.google.truth:truth:1.+"

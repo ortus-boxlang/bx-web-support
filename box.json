@@ -28,10 +28,9 @@
 		}
 	],
 	"devDependencies": {
+        "commandbox-boxlang": "*",
 		"commandbox-cfformat": "*",
 		"commandbox-docbox": "*",
-		"commandbox-dotenv": "*",
-		"commandbox-cfconfig": "*",
 		"testbox": "*"
 	},
 	"ignore": [
@@ -44,7 +43,5 @@
 		"gradle/**"
 	],
 	"scripts": {
-		"setupTemplate": "task run taskFile=src/build/SetupTemplate.cfc",
-		"onRelease": "publish"
 	}
 }

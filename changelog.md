@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Updated all internal versions
+- Updated dependencies to latest versions
+- Updated all github actions
+
 ## [1.0.0] - 2025-07-13
 
 - First iteration of this module

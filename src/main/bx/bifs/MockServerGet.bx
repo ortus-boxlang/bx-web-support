@@ -41,22 +41,23 @@ class{
 	){
 
 		if( request.keyExists( moduleRecord.settings.requestKey ) && !arguments.force ){
-			return request[ moduleRecord.settings.requestKey ];
+			return request[ moduleRecord.settings.requestKey ]
 		}
 
-		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
-		arguments.host = arguments.host ?: moduleRecord.settings.host;
-		arguments.port = arguments.port ?: moduleRecord.settings.port;
-		arguments.secure = arguments.secure ?: moduleRecord.settings.secure;
+		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot
+		arguments.host = arguments.host ?: moduleRecord.settings.host
+		arguments.port = arguments.port ?: moduleRecord.settings.port
+		arguments.secure = arguments.secure ?: moduleRecord.settings.secure
 
 		request[ moduleRecord.settings.requestKey ] = new MockHTTPExchange(
 			arguments.webroot,
 			arguments.host,
 			arguments.port,
-			arguments.secure
-		);
+			arguments.secure,
+			getBoxContext().getRequestContext()
+		)
 
-		return request[ moduleRecord.settings.requestKey ];
+		return request[ moduleRecord.settings.requestKey ]
 	}
 
 }

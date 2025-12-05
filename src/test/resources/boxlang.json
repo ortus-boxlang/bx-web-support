@@ -1,0 +1,6 @@
+{
+	"modulesDirectory": [
+		"src/test/resources/modules"
+	],
+	"modules": {}
+}

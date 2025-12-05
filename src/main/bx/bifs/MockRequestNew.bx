@@ -1,0 +1,82 @@
+/**
+ * Create a mock request builder without executing it yet.
+ * This allows you to configure the request using fluent methods before executing.
+ *
+ * The following is injected by the RUNTIME:
+ * - boxRuntime : BoxLangRuntime
+ * - log : A logger
+ * - functionService : The BoxLang FunctionService
+ * - interceptorService : The BoxLang InterceptorService
+ * - moduleRecord : The ModuleRecord instance
+ */
+import java:ortus.boxlang.websupport.exchange.MockHTTPExchange;
+
+@BoxBIF
+class{
+
+	property name="boxRuntime";
+	property name="log";
+	property name="functionService";
+	property name="interceptorService";
+	property name="moduleRecord";
+
+	/**
+	 * Creates a new mock request builder for fluent configuration.
+	 * Use this when you want to configure the request step-by-step before executing.
+	 *
+	 * Example:
+	 * <pre>
+	 * mockRequest = mockRequestNew()
+	 *     .setRequestMethod( "POST" )
+	 *     .setRequestBodyJSON( { "name": "John", "age": 30 } )
+	 *     .addRequestHeader( "Authorization", "Bearer token" )
+	 *     .addURLParam( "debug", true );
+	 * </pre>
+	 *
+	 * @webroot string The webroot to use for the mock server, defaults to the module setting
+	 * @host string The host to use for the mock server, defaults to the module setting
+	 * @port numeric The port to use for the mock server, defaults to the module setting
+	 * @secure boolean Whether the mock server should be secure, defaults to the module setting
+	 *
+	 * @return MockHTTPExchange A mock request builder you can configure with fluent methods
+	 */
+	function invoke(
+		string webroot,
+		string host,
+		numeric port,
+		boolean secure,
+		string method = "GET",
+		string path = "/",
+		string body = "",
+		string contentType = "text/html",
+		struct headers = {},
+		struct urlScope = {},
+		struct formScope = {},
+		struct cookieScope = {}
+	){
+		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
+		arguments.host = arguments.host ?: moduleRecord.settings.host;
+		arguments.port = arguments.port ?: moduleRecord.settings.port;
+		arguments.secure = arguments.secure ?: moduleRecord.settings.secure;
+
+		var mockServer = new MockHTTPExchange(
+			arguments.webroot,
+			arguments.host,
+			arguments.port,
+			arguments.secure,
+			getBoxContext().getRequestContext()
+		)
+
+		// Set initial request parameters
+		return mockServer
+			.setRequestPath( arguments.path )
+			.setRequestMethod( arguments.method )
+			.setRequestBody( arguments.body )
+			.setRequestContentType( arguments.contentType )
+			.addRequestHeaders( arguments.headers )
+			.addURLParams( arguments.urlScope )
+			.addFormFields( arguments.formScope )
+			.addRequestCookies( arguments.cookieScope )
+	}
+
+}

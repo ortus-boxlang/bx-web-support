@@ -1,0 +1,124 @@
+/**
+ * The following is injected by the RUNTIME:
+ * - boxRuntime : BoxLangRuntime
+ * - log : A logger
+ * - functionService : The BoxLang FunctionService
+ * - interceptorService : The BoxLang InterceptorService
+ * - moduleRecord : The ModuleRecord instance
+ */
+import java:ortus.boxlang.web.WebRequestExecutor;
+
+@BoxBIF
+class{
+
+	property name="boxRuntime";
+	property name="log";
+	property name="functionService";
+	property name="interceptorService";
+	property name="moduleRecord";
+
+	/**
+	 * Handle the start of a mock request. This BIF executes a full web request simulation.
+	 * It sets up the mock server with the provided request and response parameters,
+	 * executes the request, and returns the configured MockHTTPExchange instance so you can inspect the response.
+	 *
+	 * Example:
+	 * <pre>
+	 * mockResponse = mockRequestRun()(
+	 *    path="/api/data",
+	 *   method="POST",
+	 *   body='{"key":"value"}',
+	 *   contentType="application/json",
+	 *   responseStatus=201,
+	 *  responseBody='{"success":true}'
+	 * );
+	 * // Inspect the response
+	 * status = mockResponse.getResponseStatus();
+	 * body = mockResponse.getResponseBody();
+	 * headers = mockResponse.getResponseHeaders();
+	 * // ... further processing ...
+	 * </pre>
+	 *
+	 * @path string The request path (default: "/")
+	 * @method string The HTTP method (default: "GET")
+	 * @pathInfo string The path info
+	 * @queryString string The query string
+	 * @contentType string The content type (default: "text/html")
+	 * @body string The request body
+	 * @urlScope struct URL parameters
+	 * @formScope struct Form parameters
+	 * @cookieScope struct Cookies
+	 * @headers struct Request headers
+	 * @responseStatus numeric Expected response status (default: 200)
+	 * @responseContentType string Expected response content type (default: "text/html")
+	 * @responseBody string Expected response body
+	 * @responseHeaders struct Expected response headers
+	 * @webroot string The webroot path
+	 * @host string The host name
+	 * @port numeric The port number
+	 * @secure boolean Whether to use HTTPS
+	 * @force boolean Force creation of new mock server
+	 */
+	function invoke(
+		// Request Settings
+		string path = "/",
+		string method = "GET",
+		string pathInfo = "",
+		string queryString = "",
+		string contentType = "text/html",
+		string body = "",
+		struct urlScope = {},
+		struct formScope = {},
+		struct cookieScope = {},
+		struct headers = {},
+		// Response Mock Settings
+		numeric responseStatus = 200,
+		string responseContentType = "text/html",
+		string responseBody = "",
+		struct responseHeaders = {},
+		// Web Server Settings
+		string webroot,
+		string host,
+		numeric port,
+		boolean secure,
+		boolean force = false
+	){
+		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
+		var mockServer = mockServerGet( argumentCollection = arguments );
+
+		// Set up the request using fluent API
+		mockServer
+			.setRequestPath( arguments.path )
+			.setRequestMethod( arguments.method )
+			.setRequestPathInfo( arguments.pathInfo )
+			.setRequestQueryString( arguments.queryString )
+			.setRequestContentType( arguments.contentType )
+			.setRequestBody( arguments.body );
+
+		// Add URL parameters
+		if( !arguments.urlScope.isEmpty() ){
+			mockServer.addURLParams( arguments.urlScope );
+		}
+
+		// Add form fields
+		if( !arguments.formScope.isEmpty() ){
+			mockServer.addFormFields( arguments.formScope );
+		}
+
+		// Add cookies
+		if( !arguments.cookieScope.isEmpty() ){
+			arguments.cookieScope.each( function( name, value ){
+				mockServer.addRequestCookie( name, value );
+			});
+		}
+
+		// Add headers
+		if( !arguments.headers.isEmpty() ){
+			mockServer.addRequestHeaders( arguments.headers );
+		}
+
+		// Execute the request and return the mock server for inspection
+		return mockServer.execute()
+	}
+
+}

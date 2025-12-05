@@ -299,7 +299,7 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 *
 	 * @return This exchange for chaining
 	 */
-	public IBoxHTTPExchange addURLParams( Map<String, Object> params ) {
+	public IBoxHTTPExchange addURLParams( IStruct params ) {
 		params.forEach( ( name, value ) -> this.mockURL.put( name, value ) );
 		return this;
 	}
@@ -324,7 +324,7 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 *
 	 * @return This exchange for chaining
 	 */
-	public IBoxHTTPExchange addFormFields( Map<String, Object> fields ) {
+	public IBoxHTTPExchange addFormFields( IStruct fields ) {
 		fields.forEach( ( name, value ) -> this.mockForm.put( name, value ) );
 		return this;
 	}
@@ -351,6 +351,18 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 */
 	public IBoxHTTPExchange addRequestCookie( String name, String value ) {
 		this.mockRequestCookies.put( name, new BoxCookie( name, value ) );
+		return this;
+	}
+
+	/**
+	 * Add request cookies using a struct (fluent)
+	 *
+	 * @param cookies Struct of cookie names to values
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addRequestCookies( IStruct cookies ) {
+		cookies.forEach( ( name, value ) -> this.mockRequestCookies.put( name, new BoxCookie( name.getName(), value.toString() ) ) );
 		return this;
 	}
 

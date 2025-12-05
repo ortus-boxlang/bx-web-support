@@ -174,7 +174,7 @@ public class IntegrationTest extends BaseIntegrationTest {
 			// Create a new mock request
 			mockServer = mockRequestNew(
 				method: "PUT",
-				url: "/api/test",
+				path: "/api/test",
 				headers: {
 					"Content-Type": "application/json",
 					"X-Test-Header": "TestValue"

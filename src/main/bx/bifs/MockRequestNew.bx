@@ -44,20 +44,39 @@ class{
 		string webroot,
 		string host,
 		numeric port,
-		boolean secure
+		boolean secure,
+		string method = "GET",
+		string path = "/",
+		string body = "",
+		string contentType = "text/html",
+		struct headers = {},
+		struct urlScope = {},
+		struct formScope = {},
+		struct cookieScope = {}
 	){
 		arguments.webroot = arguments.webroot ?: moduleRecord.settings.webRoot;
 		arguments.host = arguments.host ?: moduleRecord.settings.host;
 		arguments.port = arguments.port ?: moduleRecord.settings.port;
 		arguments.secure = arguments.secure ?: moduleRecord.settings.secure;
 
-		return new MockHTTPExchange(
+		var mockServer = new MockHTTPExchange(
 			arguments.webroot,
 			arguments.host,
 			arguments.port,
 			arguments.secure,
 			getBoxContext().getRequestContext()
-		);
+		)
+
+		// Set initial request parameters
+		return mockServer
+			.setRequestPath( arguments.path )
+			.setRequestMethod( arguments.method )
+			.setRequestBody( arguments.body )
+			.setRequestContentType( arguments.contentType )
+			.addRequestHeaders( arguments.headers )
+			.addURLParams( arguments.urlScope )
+			.addFormFields( arguments.formScope )
+			.addRequestCookies( arguments.cookieScope )
 	}
 
 }

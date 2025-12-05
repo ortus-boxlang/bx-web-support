@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ortus.boxlang.runtime.BoxRuntime;
+import ortus.boxlang.runtime.context.IBoxContext;
 import ortus.boxlang.runtime.scopes.Key;
 import ortus.boxlang.runtime.types.IStruct;
 import ortus.boxlang.runtime.types.Struct;
@@ -47,67 +49,67 @@ import ortus.boxlang.web.exchange.IBoxHTTPExchange;
 public class MockHTTPExchange implements IBoxHTTPExchange {
 
 	// Mock Server Properties
-	private String					webroot;
-	private String					host;
-	private int						port;
-	private boolean					secure;
+	protected String				webroot;
+	protected String				host;
+	protected int					port;
+	protected boolean				secure;
 	// Mock Request Properties
-	private String					requestPath			= "/";
-	private String					requestMethod		= "GET";
-	private String					requestPathInfo		= "";
-	private String					requestQueryString	= "";
-	Object							requestBody			= null;
-	String							requestContentType	= "text/html";
+	protected String				requestPath			= "/";
+	protected String				requestMethod		= "GET";
+	protected String				requestPathInfo		= "";
+	protected String				requestQueryString	= "";
+	protected Object				requestBody			= null;
+	protected String				requestContentType	= "text/html";
 
 	/**
 	 * Request attributes
 	 */
-	private Map<String, Object>		attributes			= new HashMap<>();
+	protected Map<String, Object>	attributes			= new HashMap<>();
 
 	/**
 	 * Form Data
 	 */
-	private IStruct					mockForm			= new Struct();
+	protected IStruct				mockForm			= new Struct();
 
 	/**
 	 * URL Data
 	 */
-	private IStruct					mockURL				= new Struct();
+	protected IStruct				mockURL				= new Struct();
 
 	/**
 	 * Response Status
 	 */
-	private int						responseStatus		= 200;
+	protected int					responseStatus		= 200;
 
 	/**
 	 * Response Text
 	 */
-	private String					responseText		= "Ok";
+	protected String				responseText		= "Ok";
 
 	/**
 	 * Mock Response Cookies
 	 */
-	private IStruct					mockResponseCookies	= new Struct();
+	protected IStruct				mockResponseCookies	= new Struct();
 
 	/**
 	 * Mock Request Cookies
 	 */
-	private IStruct					mockRequestCookies	= new Struct();
+	protected IStruct				mockRequestCookies	= new Struct();
 
 	/**
 	 * Mock Request Headers
 	 */
-	private IStruct					mockRequestHeaders	= new Struct();
+	protected IStruct				mockRequestHeaders	= new Struct();
 
 	/**
 	 * Mock Response Headers
 	 */
-	private IStruct					mockResponseHeaders	= new Struct();
+	protected IStruct				mockResponseHeaders	= new Struct();
 
 	/**
 	 * PrintWriter for the response that wraps the channel
 	 */
-	PrintWriter						writer				= new PrintWriter( new StringWriter() );
+	protected PrintWriter			writer				= new PrintWriter( new StringWriter() );
 
 	/**
 	 * The BoxLang context for this request
@@ -115,23 +117,37 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	protected WebRequestBoxContext	context;
 
 	/**
+	 * The caller request context
+	 */
+	protected IBoxContext			requestContext;
+
+	/**
 	 * The list of file uploads
 	 */
-	List<FileUpload>				fileUploads			= new ArrayList<>();
+	protected List<FileUpload>		fileUploads			= new ArrayList<>();
+
+	/**
+	 * The Box Runtime
+	 */
+	private static final BoxRuntime	runtime				= BoxRuntime.getInstance();
 
 	/**
 	 * Create a new BoxLang Mock HTTP exchange
 	 *
-	 * @param webroot The webroot of the application to mock
-	 * @param host    The host of the application to mock
-	 * @param port    The port of the application to mock
-	 * @param secure  Whether the application is secure or not
+	 * @param webroot        The webroot of the application to mock
+	 * @param host           The host of the application to mock
+	 * @param port           The port of the application to mock
+	 * @param secure         Whether the application is secure or not
+	 * @param requestContext The request context to associate with this mock exchange
 	 */
-	public MockHTTPExchange( String webroot, String host, int port, boolean secure ) {
-		this.port		= port;
-		this.host		= host;
-		this.webroot	= webroot;
-		this.secure		= secure;
+	public MockHTTPExchange( String webroot, String host, int port, boolean secure, IBoxContext requestContext ) {
+		this.port			= port;
+		this.host			= host;
+		this.webroot		= webroot;
+		this.secure			= secure;
+		this.requestContext	= requestContext;
+		// Initialize the web context
+		initializeWebContext( requestContext );
 	}
 
 	/**
@@ -194,6 +210,31 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 */
 	public IStruct getMockResponseCookies() {
 		return this.mockResponseCookies;
+	}
+
+	/**
+	 * Get mock request headers
+	 */
+	public IStruct getMockRequestHeaders() {
+		return this.mockRequestHeaders;
+	}
+
+	/**
+	 * Get mock response headers
+	 */
+	public IStruct getMockResponseHeaders() {
+		return this.mockResponseHeaders;
+	}
+
+	/**
+	 * Add a request header (fluent)
+	 *
+	 * @param name  The header name
+	 * @param value The header value
+	 */
+	public IBoxHTTPExchange addRequestHeader( String name, String value ) {
+		this.mockRequestHeaders.put( name, value );
+		return this;
 	}
 
 	/**
@@ -620,6 +661,18 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	@Override
 	public void setWebContext( WebRequestBoxContext context ) {
 		this.context = context;
+	}
+
+	/**
+	 * Initialize the web context for this mock exchange.
+	 * This allows web-aware BIFs like getHTTPRequestData() to work properly.
+	 *
+	 * @param parentContext The parent context to attach this web context to
+	 */
+	public MockHTTPExchange initializeWebContext( ortus.boxlang.runtime.context.IBoxContext parentContext ) {
+		this.context = new WebRequestBoxContext( runtime.getRuntimeContext(), this, this.webroot );
+		parentContext.setParent( this.context );
+		return this;
 	}
 
 	@Override

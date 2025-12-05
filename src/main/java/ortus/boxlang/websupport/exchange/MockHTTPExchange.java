@@ -490,7 +490,7 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 * @param requestPath the requestPath to set
 	 */
 	public IBoxHTTPExchange setRequestPath( String requestPath ) {
-		this.requestPath = requestPath;
+		this.requestPath = requestPath.startsWith( "/" ) ? requestPath.substring( 1 ) : requestPath;
 		return this;
 	}
 

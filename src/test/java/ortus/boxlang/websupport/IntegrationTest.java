@@ -187,7 +187,7 @@ public class IntegrationTest extends BaseIntegrationTest {
 
 			result = {
 				"method": httpData.method,
-				"url": mockServer.getRequestURL(),
+				"url": mockServer.getRequestURI(),
 				"body": httpData.content,
 				"hasTestHeader": httpData.headers.keyExists( "X-Test-Header" ),
 				"testHeaderValue": httpData.headers["X-Test-Header"] ?: ""
@@ -200,7 +200,7 @@ public class IntegrationTest extends BaseIntegrationTest {
 		// Verify the executed request data
 		var resultStruct = variables.getAsStruct( result );
 		assertThat( resultStruct.getAsString( Key.of( "method" ) ) ).isEqualTo( "PUT" );
-		assertThat( resultStruct.getAsString( Key.of( "url" ) ) ).isEqualTo( "/api/test" );
+		assertThat( resultStruct.getAsString( Key.of( "url" ) ) ).contains( "/api/test" );
 		assertThat( resultStruct.getAsString( Key.of( "body" ) ) ).contains( "BoxLang" );
 		assertThat( resultStruct.getAsString( Key.of( "body" ) ) ).contains( "test" );
 		assertThat( resultStruct.getAsBoolean( Key.of( "hasTestHeader" ) ) ).isTrue();

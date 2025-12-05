@@ -16,8 +16,8 @@ This is a **BoxLang module** that provides web request/response mocking capabili
 ### Key Components
 - `MockHTTPExchange.java`: Mock implementation of HTTP exchange with request/response tracking
 - `ModuleConfig.bx`: Module descriptor defining settings and lifecycle hooks
-- `GetMockServer.bx`: BIF to retrieve/create mock server instances (stores in request scope)
-- `StartMockRequest.bx`: BIF to execute simulated web requests
+- `mockServerGet.bx`: BIF to retrieve/create mock server instances (stores in request scope)
+- `mockRequestRun().bx`: BIF to execute simulated web requests
 
 ## BoxLang Module Conventions
 

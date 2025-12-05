@@ -37,6 +37,7 @@ import ortus.boxlang.runtime.context.IBoxContext;
 import ortus.boxlang.runtime.scopes.Key;
 import ortus.boxlang.runtime.types.IStruct;
 import ortus.boxlang.runtime.types.Struct;
+import ortus.boxlang.web.WebRequestExecutor;
 import ortus.boxlang.web.context.WebRequestBoxContext;
 import ortus.boxlang.web.exchange.BoxCookie;
 import ortus.boxlang.web.exchange.IBoxHTTPExchange;
@@ -199,6 +200,33 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	}
 
 	/**
+	 * Get the response body as a string
+	 *
+	 * @return The response body content
+	 */
+	public String getResponseBody() {
+		return this.writer.toString();
+	}
+
+	/**
+	 * Get the form data struct for inspection
+	 *
+	 * @return The form data struct
+	 */
+	public IStruct getMockForm() {
+		return this.mockForm;
+	}
+
+	/**
+	 * Get the URL data struct for inspection
+	 *
+	 * @return The URL data struct
+	 */
+	public IStruct getMockURL() {
+		return this.mockURL;
+	}
+
+	/**
 	 * Get mock request cookies
 	 */
 	public IStruct getMockRequestCookies() {
@@ -231,9 +259,98 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 *
 	 * @param name  The header name
 	 * @param value The header value
+	 *
+	 * @return This exchange for chaining
 	 */
 	public IBoxHTTPExchange addRequestHeader( String name, String value ) {
 		this.mockRequestHeaders.put( name, value );
+		return this;
+	}
+
+	/**
+	 * Add multiple request headers at once (fluent)
+	 *
+	 * @param headers Map of header names to values
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addRequestHeaders( IStruct headers ) {
+		headers.forEach( ( name, value ) -> this.mockRequestHeaders.put( name, value ) );
+		return this;
+	}
+
+	/**
+	 * Add a URL parameter (fluent)
+	 *
+	 * @param name  The parameter name
+	 * @param value The parameter value
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addURLParam( String name, Object value ) {
+		this.mockURL.put( name, value );
+		return this;
+	}
+
+	/**
+	 * Add multiple URL parameters at once (fluent)
+	 *
+	 * @param params Map of parameter names to values
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addURLParams( Map<String, Object> params ) {
+		params.forEach( ( name, value ) -> this.mockURL.put( name, value ) );
+		return this;
+	}
+
+	/**
+	 * Add a form field (fluent)
+	 *
+	 * @param name  The field name
+	 * @param value The field value
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addFormField( String name, Object value ) {
+		this.mockForm.put( name, value );
+		return this;
+	}
+
+	/**
+	 * Add multiple form fields at once (fluent)
+	 *
+	 * @param fields Map of field names to values
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addFormFields( Map<String, Object> fields ) {
+		fields.forEach( ( name, value ) -> this.mockForm.put( name, value ) );
+		return this;
+	}
+
+	/**
+	 * Add a request cookie (fluent)
+	 *
+	 * @param cookie The cookie to add
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addRequestCookie( BoxCookie cookie ) {
+		this.mockRequestCookies.put( cookie.getName(), cookie );
+		return this;
+	}
+
+	/**
+	 * Add a request cookie by name and value (fluent)
+	 *
+	 * @param name  The cookie name
+	 * @param value The cookie value
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange addRequestCookie( String name, String value ) {
+		this.mockRequestCookies.put( name, new BoxCookie( name, value ) );
 		return this;
 	}
 
@@ -295,9 +412,39 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 	 * Set the request body
 	 *
 	 * @param body The request body
+	 *
+	 * @return This exchange for chaining
 	 */
 	public IBoxHTTPExchange setRequestBody( Object body ) {
 		this.requestBody = body;
+		return this;
+	}
+
+	/**
+	 * Set request body as JSON (convenience method that also sets content type)
+	 *
+	 * @param json The JSON string or object
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange setRequestBodyJSON( Object json ) {
+		this.requestBody		= json;
+		this.requestContentType	= "application/json";
+		this.addRequestHeader( "Content-Type", "application/json" );
+		return this;
+	}
+
+	/**
+	 * Set request body as XML (convenience method that also sets content type)
+	 *
+	 * @param xml The XML string
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange setRequestBodyXML( String xml ) {
+		this.requestBody		= xml;
+		this.requestContentType	= "application/xml";
+		this.addRequestHeader( "Content-Type", "application/xml" );
 		return this;
 	}
 
@@ -680,4 +827,93 @@ public class MockHTTPExchange implements IBoxHTTPExchange {
 		this.context.clearBuffer();
 	}
 
+	/**
+	 * Clear all request data (headers, cookies, form, URL params)
+	 * Useful for resetting the mock between tests
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange clearRequestData() {
+		this.mockRequestHeaders.clear();
+		this.mockRequestCookies.clear();
+		this.mockForm.clear();
+		this.mockURL.clear();
+		this.requestBody = null;
+		this.attributes.clear();
+		return this;
+	}
+
+	/**
+	 * Clear all response data (headers, cookies, body, status)
+	 * Useful for resetting the mock between tests
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange clearResponseData() {
+		this.mockResponseHeaders.clear();
+		this.mockResponseCookies.clear();
+		this.responseStatus	= 200;
+		this.responseText	= "Ok";
+		this.writer			= new PrintWriter( new StringWriter() );
+		return this;
+	}
+
+	/**
+	 * Clear all mock data (request and response)
+	 * Useful for resetting the mock between tests
+	 *
+	 * @return This exchange for chaining
+	 */
+	public IBoxHTTPExchange clearAll() {
+		clearRequestData();
+		clearResponseData();
+		return this;
+	}
+
+	/**
+	 * Execute a full life-cycle request using this exchange
+	 * and return itself for inspection
+	 */
+	public MockHTTPExchange execute() {
+		return execute( this.requestPath, this.requestMethod, this.mockRequestHeaders, this.requestBody );
+	}
+
+	/**
+	 * Execute a full life-cycle request using this exchange
+	 * and return itself for inspection
+	 *
+	 * @param path   The request path
+	 * @param method The request method
+	 *
+	 * @return This exchange for inspection
+	 */
+	public MockHTTPExchange execute( String path, String method ) {
+		return execute( path, method, this.mockRequestHeaders, this.requestBody );
+	}
+
+	/**
+	 * Execute a full life-cycle request using this exchange
+	 * and return itself for inspection
+	 *
+	 * @param path    The request path
+	 * @param method  The request method
+	 * @param headers The request headers
+	 * @param body    The request body
+	 *
+	 * @return This exchange for inspection
+	 */
+	public MockHTTPExchange execute( String path, String method, IStruct headers, Object body ) {
+		// Set up the request
+		this.requestPath	= path;
+		this.requestMethod	= method;
+		if ( headers != null ) {
+			this.addRequestHeaders( headers );
+		}
+		if ( body != null ) {
+			this.requestBody = body;
+		}
+		// Use the WebRequestExecutor to process the request
+		WebRequestExecutor.execute( this, this.webroot, true );
+		return this;
+	}
 }

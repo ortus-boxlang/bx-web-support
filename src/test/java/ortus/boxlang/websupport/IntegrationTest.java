@@ -32,14 +32,14 @@ public class IntegrationTest extends BaseIntegrationTest {
 
 	}
 
-	@DisplayName( "Test getMockServer creates server instance" )
+	@DisplayName( "Test mockServerGet creates server instance" )
 	@Test
-	public void testGetMockServer() {
+	public void testmockServerGet() {
 		// @formatter:off
 		runtime.executeSource(
 		    """
 			// Get a mock server instance
-			mockServer = getMockServer();
+			mockServer = mockServerGet();
 
 			// Store results for assertions
 			result = {
@@ -59,22 +59,22 @@ public class IntegrationTest extends BaseIntegrationTest {
 		assertThat( resultStruct.getAsInteger( Key.of( "port" ) ) ).isEqualTo( 8080 );
 	}
 
-	@DisplayName( "Test getMockServer caching behavior" )
+	@DisplayName( "Test mockServerGet caching behavior" )
 	@Test
-	public void testGetMockServerCaching() {
+	public void testmockServerGetCaching() {
 		// @formatter:off
 		runtime.executeSource(
 		    """
 			// Get a mock server instance
-			mockServer1 = getMockServer();
+			mockServer1 = mockServerGet();
 			server1Id = mockServer1.hashCode();
 
 			// Get the same instance again (should be cached)
-			mockServer2 = getMockServer();
+			mockServer2 = mockServerGet();
 			server2Id = mockServer2.hashCode();
 
 			// Force create a new one
-			mockServer3 = getMockServer( force: true );
+			mockServer3 = mockServerGet( force: true );
 			server3Id = mockServer3.hashCode();
 
 			result = {
@@ -92,14 +92,14 @@ public class IntegrationTest extends BaseIntegrationTest {
 		assertThat( resultStruct.getAsBoolean( Key.of( "server3IsDifferent" ) ) ).isTrue();
 	}
 
-	@DisplayName( "Test getMockServer with custom settings" )
+	@DisplayName( "Test mockServerGet with custom settings" )
 	@Test
-	public void testGetMockServerWithCustomSettings() {
+	public void testmockServerGetWithCustomSettings() {
 		// @formatter:off
 		runtime.executeSource(
 		    """
 			// Create mock server with custom settings
-			mockServer = getMockServer(
+			mockServer = mockServerGet(
 				host: "example.com",
 				port: 9090,
 				secure: true,
@@ -130,7 +130,7 @@ public class IntegrationTest extends BaseIntegrationTest {
 		runtime.executeSource(
 		    """
 			// Create mock server and set up request data using fluent API
-			mockServer = getMockServer( force: true )
+			mockServer = mockServerGet( force: true )
 				.setRequestMethod( "POST" )
 				.setRequestContentType( "application/json" )
 				.setRequestBody( '{"test": "data", "value": 123}' )
@@ -164,4 +164,47 @@ public class IntegrationTest extends BaseIntegrationTest {
 		assertThat( resultStruct.getAsBoolean( Key.of( "hasAuthHeader" ) ) ).isTrue();
 		assertThat( resultStruct.getAsString( Key.of( "authHeaderValue" ) ) ).isEqualTo( "Bearer token123" );
 	}
+
+	@DisplayName( "Test a mockRequestNew() and execute it to verify request processing" )
+	@Test
+	public void testMockRequestNewAndExecute() {
+		// @formatter:off
+		runtime.executeSource(
+		    """
+			// Create a new mock request
+			mockServer = mockRequestNew(
+				method: "PUT",
+				url: "/api/test",
+				headers: {
+					"Content-Type": "application/json",
+					"X-Test-Header": "TestValue"
+				},
+				body: '{"name": "BoxLang", "type": "test"}'
+			).execute()
+
+			// Retrieve the processed request data
+			httpData = getHTTPRequestData();
+
+			result = {
+				"method": httpData.method,
+				"url": mockServer.getRequestURL(),
+				"body": httpData.content,
+				"hasTestHeader": httpData.headers.keyExists( "X-Test-Header" ),
+				"testHeaderValue": httpData.headers["X-Test-Header"] ?: ""
+			};
+			""",
+		    context
+		);
+		// @formatter:on
+
+		// Verify the executed request data
+		var resultStruct = variables.getAsStruct( result );
+		assertThat( resultStruct.getAsString( Key.of( "method" ) ) ).isEqualTo( "PUT" );
+		assertThat( resultStruct.getAsString( Key.of( "url" ) ) ).isEqualTo( "/api/test" );
+		assertThat( resultStruct.getAsString( Key.of( "body" ) ) ).contains( "BoxLang" );
+		assertThat( resultStruct.getAsString( Key.of( "body" ) ) ).contains( "test" );
+		assertThat( resultStruct.getAsBoolean( Key.of( "hasTestHeader" ) ) ).isTrue();
+		assertThat( resultStruct.getAsString( Key.of( "testHeaderValue" ) ) ).isEqualTo( "TestValue" );
+	}
+
 }

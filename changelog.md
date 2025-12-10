@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2025-12-10
+
 ### Fixed
 
 - Removed by accident the web support libraries when upgrading to 1.1.0
@@ -27,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First iteration of this module
 
-[unreleased]: https://github.com/ortus-boxlang/bx-web-support/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/ortus-boxlang/bx-web-support/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/ortus-boxlang/bx-web-support/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/ortus-boxlang/bx-web-support/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/ortus-boxlang/bx-web-support/compare/8c46ecb2e48389888c2d3200aa20435b4d3d8b1e...v1.0.0

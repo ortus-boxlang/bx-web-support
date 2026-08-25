@@ -17,6 +17,7 @@ jobs:
   guard:
     name: Ensure Hotfix Branch
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Verify branch is a hotfix branch
         run: |
